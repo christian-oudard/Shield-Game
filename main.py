@@ -32,6 +32,9 @@ def draw(win, world):
     win.erase()
     win.border(*'||--++++')
     win.addch(y + 1, x + 1, '@')
+    for b in world.boxes:
+        x, y = b.pos
+        win.addch(y + 1, x + 1, 'X')
     win.refresh()
 
 def init(stdscr):
