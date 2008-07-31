@@ -9,12 +9,13 @@ import vec
 from keys import key_mapping
 from world import World
 
-BOARD_X, BOARD_Y = BOARD_SIZE = (7, 5)
-ORIGIN_X, ORIGIN_Y = ORIGIN = (2, 5)
+ORIGIN_X, ORIGIN_Y = ORIGIN = (3, 2)
 
 def curses_main(stdscr):
     init(stdscr)
-    world = World(BOARD_SIZE)
+    world = load_level('1')
+    if world is None:
+        return #STUB
     while True:
         try:
             draw(stdscr, world)
@@ -38,9 +39,10 @@ def init(stdscr):
     stdscr.refresh() # refresh right away so first call to stdscr.getch() doesn't overwrite the first draw()
 
 def draw(win, world):
+    board_x, board_y = world.board_size
     x, y = to_screen(world.hero.pos)
     win.erase()
-    draw_border(win, ORIGIN_Y - 1, ORIGIN_X - 1, BOARD_Y + 1, BOARD_X + 1)
+    draw_border(win, ORIGIN_Y - 1, ORIGIN_X - 1, board_y + 1, board_x + 1)
     win.addch(y, x, '@')
     for b in world.boxes:
         x, y = to_screen(b.pos)
@@ -62,6 +64,25 @@ def draw_border(win, top, left, height, width):
     win.hline(bottom, left + 1, '-', width - 1)
     win.vline(top + 1, left, '|', height - 1)
     win.vline(top + 1, right, '|', height - 1)
+
+import os
+LEVEL_PATH = 'levels'
+def load_level(filename):
+    file_path = os.path.join(LEVEL_PATH, filename)
+    try:
+        f = open(file_path)
+    except IOError:
+        log.write('level file "%s" not found' % file_path)
+        return None
+    size_line = f.readline()
+    try:
+        width, height = size_line.strip().split(',')
+        width = int(width)
+        height = int(height)
+    except ValueError:
+        log.write('invalid level-size line: %r' % size_line)
+        return None
+    return World((width, height))
 
 def to_screen(pos):
     return vec.add(pos, ORIGIN)
