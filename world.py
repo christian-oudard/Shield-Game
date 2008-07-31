@@ -40,6 +40,7 @@ class World(object):
             Box(self, (3,2)),
             Box(self, (3,3)),
         )
+        self.history = []
 
     def update(self, command):
         move_dir = command #STUB, all commands are movement commands
@@ -49,12 +50,20 @@ class World(object):
             return
 
     def checkpoint(self):
-        self.old_hero_pos = self.hero.pos
-        self.old_boxes_pos = tuple(b.pos for b in self.boxes)
+        history_item = (
+            self.hero.pos,
+            tuple(b.pos for b in self.boxes),
+        )
+        self.history.append(history_item)
     
     def rollback(self):
-        self.hero.pos = self.old_hero_pos
-        for b, old_pos in zip(self.boxes, self.old_boxes_pos):
+        try:
+            history_item = self.history.pop()
+        except IndexError:
+            return False
+        old_hero_pos, old_boxes_pos = history_item
+        self.hero.pos = old_hero_pos
+        for b, old_pos in zip(self.boxes, old_boxes_pos):
             b.pos = old_pos
 
     def check_bounds(self, pos):

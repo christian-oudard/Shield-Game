@@ -13,11 +13,11 @@ BOARD_X, BOARD_Y = BOARD_SIZE = (5, 5)
 ORIGIN_X, ORIGIN_Y = ORIGIN = (2, 2)
 
 def curses_main(stdscr):
-    board_win = init(stdscr)
+    init(stdscr)
     world = World(BOARD_SIZE)
     while True:
         try:
-            draw(board_win, world)
+            draw(stdscr, world)
         except curses.error:
             pass
         c = stdscr.getch()
@@ -25,25 +25,42 @@ def curses_main(stdscr):
             command = key_mapping[c]
         except KeyError:
             continue
-        world.update(command)
-
-def draw(win, world):
-    x, y = world.hero.pos
-    win.erase()
-    win.border(*'||--++++')
-    win.addch(y + 1, x + 1, '@')
-    for b in world.boxes:
-        x, y = b.pos
-        win.addch(y + 1, x + 1, 'X')
-    win.refresh()
+        if command == 'undo':
+            world.rollback()
+        elif command == 'quit':
+            break
+        else:
+            world.update(command)
 
 def init(stdscr):
     log.init('py_curses_log')
     curses.curs_set(0)
-    board_win = curses.newwin(BOARD_Y + 2, BOARD_X + 2, ORIGIN_Y, ORIGIN_X)
-    board_win.leaveok(1)
     stdscr.refresh() # refresh right away so first call to stdscr.getch() doesn't overwrite the first draw()
-    return board_win
+
+def draw(win, world):
+    x, y = to_screen(world.hero.pos)
+    win.erase()
+    draw_border(win, ORIGIN_Y - 1, ORIGIN_X - 1, BOARD_Y + 1, BOARD_X + 1)
+    win.addch(y, x, '@')
+    for b in world.boxes:
+        x, y = to_screen(b.pos)
+        win.addch(y, x, 'X')
+    win.refresh()
+
+def draw_border(win, top, left, height, width):
+    bottom = top + height
+    right = left + width
+    corners = (
+        (top, left),
+        (top, right),
+        (bottom, left),
+        (bottom, right),
+    )
+    for y, x in corners:
+        win.addch(y, x, '+')
+
+def to_screen(pos):
+    return vec.add(pos, ORIGIN)
 
 if __name__ == '__main__':
     curses.wrapper(curses_main)

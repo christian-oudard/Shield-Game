@@ -4,6 +4,8 @@ from curses import *
 # key code: (dx, dy)
 # where dx and dy are the difference in x and y coordinate
 key_mapping = {
+    'q': 'quit',
+    'u': 'undo',
     KEY_UP: (0, -1),
     KEY_DOWN: (0, 1),
     KEY_LEFT: (-1, 0),
