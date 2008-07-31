@@ -5,10 +5,10 @@ import time
 
 import log
 import vec
-from keys import key_mapping
-from world import World, ENTITY_CODES, WALL
 
-ORIGIN_X, ORIGIN_Y = ORIGIN = (3, 2)
+from world import World
+from constants import *
+from draw import draw
 
 def curses_main(stdscr):
     init(stdscr)
@@ -19,7 +19,7 @@ def curses_main(stdscr):
         draw(stdscr, world)
         c = stdscr.getch()
         try:
-            command = key_mapping[c]
+            command = KEY_MAPPING[c]
         except KeyError:
             continue
         if command == 'undo':
@@ -35,35 +35,6 @@ def init(stdscr):
     log.init('py_curses_log')
     curses.curs_set(0)
     stdscr.refresh() # refresh right away so first call to stdscr.getch() doesn't overwrite the first draw()
-
-def draw(win, world):
-    board_x, board_y = world.board_size
-    log.write(world.board_size)
-    win.erase()
-    draw_border(win, ORIGIN_Y - 1, ORIGIN_X - 1, board_y + 1, board_x + 1)
-    for pos, t in world.terrain.items():
-        x, y = to_screen(pos)
-        win.addch(y, x, t)
-    for e in world.entities:
-        x, y = to_screen(e.pos)
-        win.addch(y, x, e.display_character)
-    win.refresh()
-
-def draw_border(win, top, left, height, width):
-    bottom = top + height
-    right = left + width
-    corners = (
-        (top, left),
-        (top, right),
-        (bottom, left),
-        (bottom, right),
-    )
-    for y, x in corners:
-        win.addch(y, x, '+')
-    win.hline(top, left + 1, '-', width - 1)
-    win.hline(bottom, left + 1, '-', width - 1)
-    win.vline(top + 1, left, '|', height - 1)
-    win.vline(top + 1, right, '|', height - 1)
 
 import os
 LEVEL_PATH = 'levels'
@@ -87,9 +58,6 @@ def load_level(filename):
     entity_lines = ''.join(f.readline() for i in range(height))
     log.write(entity_lines)
     return World(terrain_lines, entity_lines)
-
-def to_screen(pos):
-    return vec.add(pos, ORIGIN)
 
 if __name__ == '__main__':
     curses.wrapper(curses_main)

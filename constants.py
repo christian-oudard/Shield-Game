@@ -1,9 +1,13 @@
+TERRAIN_BLANK = '.'
+WALL = '#'
+ENTITY_BLANK = '_'
+
 from curses import *
 
 # format:
 # key code: (dx, dy)
 # where dx and dy are the difference in x and y coordinate
-key_mapping = {
+KEY_MAPPING = {
     'q': 'quit',
     'u': 'undo',
     KEY_UP: (0, -1),
@@ -19,10 +23,8 @@ key_mapping = {
     'b': (-1, 1),
     'm': (1, 1),
 }
-
-for key, value in key_mapping.items():
+for key, value in KEY_MAPPING.items():
     try:
-        key_mapping[ord(key)] = value
+        KEY_MAPPING[ord(key)] = value
     except TypeError:
         pass
-
