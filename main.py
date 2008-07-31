@@ -9,8 +9,8 @@ import vec
 from keys import key_mapping
 from world import World
 
-BOARD_X, BOARD_Y = BOARD_SIZE = (5, 5)
-ORIGIN_X, ORIGIN_Y = ORIGIN = (2, 2)
+BOARD_X, BOARD_Y = BOARD_SIZE = (7, 5)
+ORIGIN_X, ORIGIN_Y = ORIGIN = (2, 5)
 
 def curses_main(stdscr):
     init(stdscr)
@@ -58,6 +58,10 @@ def draw_border(win, top, left, height, width):
     )
     for y, x in corners:
         win.addch(y, x, '+')
+    win.hline(top, left + 1, '-', width - 1)
+    win.hline(bottom, left + 1, '-', width - 1)
+    win.vline(top + 1, left, '|', height - 1)
+    win.vline(top + 1, right, '|', height - 1)
 
 def to_screen(pos):
     return vec.add(pos, ORIGIN)
