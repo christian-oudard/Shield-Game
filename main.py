@@ -2,12 +2,11 @@
 
 import curses
 import time
-from copy import deepcopy
 
 import log
 import vec
 from keys import key_mapping
-from world import World, ENTITY_CODES
+from world import World, ENTITY_CODES, WALL
 
 ORIGIN_X, ORIGIN_Y = ORIGIN = (3, 2)
 
@@ -26,6 +25,8 @@ def curses_main(stdscr):
         if command == 'undo':
             world.rollback()
         elif command == 'quit':
+            stdscr.erase()
+            stdscr.refresh()
             break
         else:
             world.update(command)
@@ -37,8 +38,12 @@ def init(stdscr):
 
 def draw(win, world):
     board_x, board_y = world.board_size
+    log.write(world.board_size)
     win.erase()
     draw_border(win, ORIGIN_Y - 1, ORIGIN_X - 1, board_y + 1, board_x + 1)
+    for pos, t in world.terrain.items():
+        x, y = to_screen(pos)
+        win.addch(y, x, t)
     for e in world.entities:
         x, y = to_screen(e.pos)
         win.addch(y, x, e.display_character)
@@ -84,7 +89,6 @@ def load_level(filename):
     return World(terrain_lines, entity_lines)
 
 def to_screen(pos):
-    log.write('to screen %r' % (pos,))
     return vec.add(pos, ORIGIN)
 
 if __name__ == '__main__':

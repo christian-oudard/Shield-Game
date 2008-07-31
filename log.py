@@ -5,5 +5,6 @@ def init(logfile):
     _logfile = open(logfile, 'w', 1)
     write('log "%s" initialized' % logfile)
     
-def write(message):
+def write(*args):
+    message = ' '.join(str(a) for a in args)
     _logfile.write(message + '\n')

@@ -10,14 +10,14 @@ class Entity(object):
 
     def move(self, dir_vec):
         self.pos = vec.add(self.pos, dir_vec)
-        if self.world.check_bounds(self.pos):
+        if self.world.collide_terrain(self.pos):
             return False
-        e = self.check_collision(self.pos)
+        e = self.collide_entity(self.pos)
         if e is not None:
             return e.move(dir_vec)
         return True
 
-    def check_collision(self, pos):
+    def collide_entity(self, pos):
         for b in self.world.entities:
             if b is self:
                 continue
@@ -31,6 +31,7 @@ class Box(Entity):
     pass
 
 TERRAIN_BLANK = '.'
+WALL = '#'
 ENTITY_BLANK = '_'
 ENTITY_CODES = {
     '@': Hero,
@@ -42,7 +43,7 @@ for code, Class in ENTITY_CODES.items():
 class World(object):
     def __init__(self, terrain_string, entity_string):
         self.history = []
-        self.terrain_dict, self.board_size = parse_grid(terrain_string, TERRAIN_BLANK)
+        self.terrain, self.board_size = parse_grid(terrain_string)
         entity_dict, _ = parse_grid(entity_string, ENTITY_BLANK)
         self.hero = None
         self.entities = []
@@ -71,14 +72,13 @@ class World(object):
         for e, old_pos in zip(self.entities, history_item):
             e.pos = old_pos
 
-    def check_bounds(self, pos):
-        x, y = pos
-        board_x, board_y = self.board_size
-        return x < 0 or y < 0 or x >= board_x or y >= board_y
+    def collide_terrain(self, pos):
+        try:
+            return self.terrain[pos] == WALL
+        except KeyError:
+            return True
 
 def parse_grid(data_string, blanks=''):
-    blanks += ' \n\t'
-
     lines = data_string.split('\n')
     try:
         while True: # remove blank lines
@@ -87,23 +87,25 @@ def parse_grid(data_string, blanks=''):
 
     # fill data from string
     init_data = {}
-    for y, line in enumerate(lines):
-        for x, character in enumerate(line):
-            if character not in blanks:
-                init_data[(x,y)] = character
-
-    # bounds correction
     x_vals = []
     y_vals = []
+    for y, line in enumerate(lines):
+        for x, character in enumerate(line):
+            if not character.isspace():
+                x_vals.append(x)
+                y_vals.append(y)
+                if character not in blanks:
+                    init_data[(x,y)] = character
+
+    # bounds correction
     for pos in init_data.keys():
         x, y = pos
-        x_vals.append(x)
-        y_vals.append(y)
     min_x, max_x = min(x_vals), max(x_vals)
-    min_y, max_y = min(y_vals), max(x_vals)
+    min_y, max_y = min(y_vals), max(y_vals)
     data = {}
-    for key, value in init_data.iteritems():
+    for key, value in init_data.items():
         x, y = key
         data[(x-min_x, y-min_y)] = value
 
-    return data, (max_x, max_y)
+    log.write('max x, max y =', max_x, ',', max_y)
+    return data, (max_x + 1, max_y + 1)
