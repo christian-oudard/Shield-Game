@@ -1,7 +1,133 @@
-squishy block
-- the block cannot be pushed normally
-- when you stab it, your sword sticks in it
-- moving any way besides backward brings the block with you
-- backward widthraws the sword
-- turning your sword brings the block along
+design for a turn-based puzzle game
+
+prior work
+- sokoban
+	- von neumann grid 
+	- boxes to push around
+	- can push only one box in a row
+	- goal is to arrange blocks in a certain way
+- mouse, cheese, cats, and blocks ?
+	- moore grid
+	- can push as many blocks as you want
+	- cats chase you, and when they are constrained to one square, they turn into cheese
+- drod
+	- moore grid
+	- primary mechanic is a large sword which is swung around to 8 directions
+	- many kinds of enemies
+	- win when all enemies in room are dead
+	- hit enemies with sword to kill them
+	- myriad other mechanics, floor types, switches, doors, goo, bombs, etc
+	- levels are contiguous, and rooms affect each other
+- laser tank
+	- von neumann grid
+	- primary mechanic is shooting a laser and having it bounce off of mirrors
+	- enemy tanks shoot you
+	- blocks which can be pushed with a laser
+	- water which turns into land when a block is pushed in
+	- win by getting to the flag
+- chip's challenge
+	- von neumann grid
+	- not turn based, but movement is discrete on squares
+	- collect all chips to unlock final door and win level
+	- many enemies that kill on contact, no way to kill enemies
+	- floor types
+		- ice makes you slide, with redirector tiles
+		- fire kills you
+		- force floors push you in a direction
+		- water is unpassable unless you push a block into it
+		- boots to bypass every floor type
+- tomato and veggie friends ?
+	- von neumann
+	- polyominoes to push around
+	- when polys fall in a pit, they make a floor
+	- turnstile blocks, have a pivot, hero can push them around
+	- multiple heroes, can switch between them
+	- win by getting to finish door
+- kickle cubicle
+	- breath on enemies to turn them into ice blocks
+	- ice blocks can be kicked around, they slide until they hit something
+	- when a block falls in water, it becomes a floor
+	- can make and destroy "posts" at will, whese stop a sliding block and protect from enemies
+	- various other puzzle elements
+		- enemies that kick blocks too
+		- springs that bounce a block back
+		- floors where enemies can't go
+		- floors where you can't go, but blocks can
+		- hammers that swing around and hit a block a different direction
+	- win by collecting all the bags
+
+why do we want blocks?
+- hold down floorplate switches
+- cross water
+- block enemies
+
+
+not terribly original ideas
+
+floating blocks:
+- block can float but hero may not pass
+- must use other means to push block across
+
+heavy versus light block:
+- can push as many light blocks in a row as you want
+- only one heavy block at a time
+
+enemy horde:
+- better coordinated than drod-style enemies
+- leave fewer gaps
+
+
+original ideas
+
+sword based:
+- squishy block
+	- the block cannot be pushed normally, with your body
+	- when you stab it, your sword sticks in it
+	- moving any way besides backward brings the block with you
+	- backward widthraws the sword
+	- turning your sword brings the block along
+- crumbly block
+	- when pushed by your body, it works normally
+	- when touched with your sword, it breaks
+
+turn-based ice:
+- when standing on ice, you continue moving the same direction you went last time
+	- all movement commands, therefore, don't work
+- since you slide automatically, you can do other things while sliding you normally couldn't do while moving
+- user needs some indication of whether you are sliding
+
+turn-based conveyor / force floor:
+- forces movement in a particular direction, otherwise similar to ice
+
+shield:
+- moore neighborhood
+- covers 3 sides (of 8)
+- can be turned 8 ways
+- protects from enemies
+- blocks projectiles
+- used to push blocks and enemies around
+
+- spiky block
+	- too sharp to push with body
+	- must push with shield
+
+dances:
+- a particular movement sequence does something
+- examples:
+	- move back, then forward, which shoots a fireball
+	- make a diamond around a square, and something appears
+
+
+general properties
+- self-contained puzzles
+- fully deterministic
+- user-graspable determinism
+
+sharing levels
+- have good integrated level editing tools
+- ability to authenticate that a level is solvable, but not reveal the solution
+	- have a level sharing website which tracks best solutions
+	- upload solutions from inside the game
+		- use base64 as encoding
+	- have top rated levels
 

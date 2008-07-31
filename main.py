@@ -7,7 +7,7 @@ from copy import deepcopy
 import log
 import vec
 from keys import key_mapping
-from world import World
+from world import World, ENTITY_CODES
 
 ORIGIN_X, ORIGIN_Y = ORIGIN = (3, 2)
 
@@ -15,12 +15,9 @@ def curses_main(stdscr):
     init(stdscr)
     world = load_level('1')
     if world is None:
-        return #STUB
+        return
     while True:
-        try:
-            draw(stdscr, world)
-        except curses.error:
-            pass
+        draw(stdscr, world)
         c = stdscr.getch()
         try:
             command = key_mapping[c]
@@ -40,13 +37,11 @@ def init(stdscr):
 
 def draw(win, world):
     board_x, board_y = world.board_size
-    x, y = to_screen(world.hero.pos)
     win.erase()
     draw_border(win, ORIGIN_Y - 1, ORIGIN_X - 1, board_y + 1, board_x + 1)
-    win.addch(y, x, '@')
-    for b in world.boxes:
-        x, y = to_screen(b.pos)
-        win.addch(y, x, 'X')
+    for e in world.entities:
+        x, y = to_screen(e.pos)
+        win.addch(y, x, e.display_character)
     win.refresh()
 
 def draw_border(win, top, left, height, width):
@@ -82,9 +77,14 @@ def load_level(filename):
     except ValueError:
         log.write('invalid level-size line: %r' % size_line)
         return None
-    return World((width, height))
+    terrain_lines = ''.join(f.readline() for i in range(height))
+    log.write(terrain_lines)
+    entity_lines = ''.join(f.readline() for i in range(height))
+    log.write(entity_lines)
+    return World(terrain_lines, entity_lines)
 
 def to_screen(pos):
+    log.write('to screen %r' % (pos,))
     return vec.add(pos, ORIGIN)
 
 if __name__ == '__main__':
