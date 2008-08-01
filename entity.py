@@ -75,17 +75,21 @@ class Hero(Piece):
         self.shield((0, 0))
 
     def shield(self, dir_vec):
+        self.shield_position = dir_vec
         for s in self.shield_pieces:
             s.solid = False
         try:
             center = R_DIRECTIONS[dir_vec]
         except KeyError:
-            return
+            return True
         left = (center - 1) % 8
         right = (center + 1) % 8
-        self.shield_pieces[left].solid = True
-        self.shield_pieces[center].solid = True
-        self.shield_pieces[right].solid = True
+        for d in (left, center, right):
+            p = self.shield_pieces[d]
+            p.solid = True
+            if not p.finish_move(dir_vec):
+                return False
+        return True #STUB, check whether there is room
 
 
 class Box(Entity):

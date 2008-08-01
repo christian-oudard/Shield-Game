@@ -46,7 +46,10 @@ class World(object):
             return
 
     def checkpoint(self):
-        history_item = tuple(b.pos for b in self.entities)
+        history_item = {
+            'positions': tuple(b.pos for b in self.entities),
+            'shield': self.hero.shield_position,
+        }
         self.history.append(history_item)
     
     def rollback(self):
@@ -54,8 +57,9 @@ class World(object):
             history_item = self.history.pop()
         except IndexError:
             return False
-        for e, old_pos in zip(self.entities, history_item):
+        for e, old_pos in zip(self.entities, history_item['positions']):
             e.pos = old_pos
+        self.hero.shield(history_item['shield'])
 
     def collide_terrain(self, pos):
         try:
