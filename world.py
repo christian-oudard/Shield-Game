@@ -3,7 +3,9 @@ from copy import deepcopy
 import log
 
 from entity import *
-from constants import *
+
+ENTITY_BLANK = '_'
+WALL = '#'
 
 class World(object):
     def __init__(self, terrain_string, entity_string):

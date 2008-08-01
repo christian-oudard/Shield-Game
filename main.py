@@ -7,7 +7,7 @@ import log
 import vec
 
 from world import World
-from constants import *
+from constants import KEY_MAPPING
 from draw import draw
 
 def curses_main(stdscr):
@@ -32,7 +32,7 @@ def curses_main(stdscr):
             world.update(command)
 
 def init(stdscr):
-    log.init('py_curses_log')
+    log.init('curses_game_log')
     curses.curs_set(0)
     stdscr.refresh() # refresh right away so first call to stdscr.getch() doesn't overwrite the first draw()
 

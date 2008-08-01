@@ -1,8 +1,6 @@
 import log
 import vec
 
-from constants import *
-
 class Entity(object):
     def __init__(self, world, pos):
         self.world = world

@@ -1,7 +1,3 @@
-TERRAIN_BLANK = '.'
-WALL = '#'
-ENTITY_BLANK = '_'
-
 from curses import *
 
 # format:
