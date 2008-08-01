@@ -2,6 +2,7 @@
 
 import curses
 import time
+import sys
 
 import log
 import vec
@@ -12,7 +13,7 @@ from draw import draw
 
 def curses_main(stdscr):
     init(stdscr)
-    world = load_level('1')
+    world = load_level(sys.argv[1])
     if world is None:
         return
     while True:

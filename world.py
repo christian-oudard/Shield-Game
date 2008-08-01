@@ -13,28 +13,21 @@ class World(object):
         self.terrain, self.board_size = parse_grid(terrain_string)
         entity_dict, _ = parse_grid(entity_string, ENTITY_BLANK)
         self.entities = set()
+        poly_groups = {}
         for pos, code in entity_dict.items():
             Class = ENTITY_CODES[code]
             e = Class(pos)
+            e.display_character = code
             self.register_entity(e)
             if Class is Hero: 
                 self.hero = e
-        #debug
-        pieces = [
-            Piece((1, 1)),
-            Piece((2, 2)),
-        ]
-        Polyomino(pieces)
-        for p in pieces:
-            self.register_entity(p)
-        pieces = [
-            Piece((2, 1)),
-            Piece((1, 2)),
-        ]
-        Polyomino(pieces)
-        for p in pieces:
-            self.register_entity(p)
-        
+            elif Class is Piece:
+                try:
+                    poly_groups[code].append(e)
+                except KeyError:
+                    poly_groups[code] = [e]
+        for pieces in poly_groups.values():
+            Polyomino(pieces)
                                     
     def register_entity(self, entity):
         self.entities.add(entity)

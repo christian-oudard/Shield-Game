@@ -62,7 +62,9 @@ class Box(Entity):
 ENTITY_CODES = {
     '@': Hero,
     'X': Box,
-    '0': Piece,
+    'A': Piece,
+    'B': Piece,
+    'C': Piece,
+    'D': Piece,
 }
-for code, Class in ENTITY_CODES.items():
-    Class.display_character = code
+
