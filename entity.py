@@ -4,10 +4,17 @@ import vec
 class Entity(object):
     def __init__(self, pos):
         self.pos = pos
+        self.solid = True
 
     def move(self, dir_vec):
+        self.start_move(dir_vec)
+        return self.finish_move(dir_vec)
+
+    def start_move(self, dir_vec):
         self.pos = vec.add(self.pos, dir_vec)
-        if self.world.collide_terrain(self.pos):
+
+    def finish_move(self, dir_vec):
+        if self.solid and self.world.collide_terrain(self.pos):
             return False
         e = self.collide_entity()
         if e:
@@ -15,8 +22,10 @@ class Entity(object):
         return True
 
     def collide_entity(self):
+        if not self.solid:
+            return None
         for b in self.world.entities:
-            if b is self:
+            if b is self or not b.solid:
                 continue
             if self.pos == b.pos:
                 return b
@@ -41,16 +50,6 @@ class Piece(Entity):
     def move(self, dir_vec):
         return self.parent.move_poly(dir_vec)
 
-    def start_move(self, dir_vec):
-        self.pos = vec.add(self.pos, dir_vec)
-
-    def finish_move(self, dir_vec):
-        if self.world.collide_terrain(self.pos):
-            return False
-        e = self.collide_entity()
-        if e:
-            return e.move(dir_vec)
-        return True
 
 
 class Hero(Entity):
