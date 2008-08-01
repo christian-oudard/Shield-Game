@@ -18,6 +18,7 @@ KEY_MAPPING = {
     'g': (1, -1),
     'b': (-1, 1),
     'm': (1, 1),
+    'v': (0, 0),
 }
 for key, value in KEY_MAPPING.items():
     try:

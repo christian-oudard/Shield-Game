@@ -36,7 +36,7 @@ prior work
 		- force floors push you in a direction
 		- water is unpassable unless you push a block into it
 		- boots to bypass every floor type
-- tomato and veggie friends ?
+- kwirk
 	- von neumann
 	- polyominoes to push around
 	- when polys fall in a pit, they make a floor
@@ -55,6 +55,17 @@ prior work
 		- floors where you can't go, but blocks can
 		- hammers that swing around and hit a block a different direction
 	- win by collecting all the bags
+- lolo
+	- not turn based
+    - sort-of von neumann, but half-spaces in between too
+	- many enemies that kill on contact
+	- turrets which kill as soon as they have orthogonal line of sight
+	- hero can turn enemies into eggs
+	- crates to push around, and block turrets
+
+
+	- winning a level
+		- 
 
 why do we want blocks?
 - hold down floorplate switches
@@ -76,6 +87,14 @@ enemy horde:
 - better coordinated than drod-style enemies
 - leave fewer gaps
 
+heavy, dumb enemy:
+- can't be pushed or killed, but will walk into hazards
+
+slow enemy:
+- takes 2 turns to walk one square
+
+fast enemy or projectile:
+- goes 2 or 3 squares per turn
 
 original ideas
 
@@ -95,6 +114,8 @@ turn-based ice:
 	- all movement commands, therefore, don't work
 - since you slide automatically, you can do other things while sliding you normally couldn't do while moving
 - user needs some indication of whether you are sliding
+- hitting something while sliding transfers your momentum
+
 
 turn-based conveyor / force floor:
 - forces movement in a particular direction, otherwise similar to ice
@@ -110,6 +131,32 @@ shield:
 - spiky block
 	- too sharp to push with body
 	- must push with shield
+- deflect projectiles
+	- if projectiles hit shield at a diagonal, they bounce off
+ 
+ *
+ *
+ \***
+@|
+ /
+
+ *
+ *
+-\***
+@|
+
+*   *
+ * *
+ /-\
+  @
+
+   *
+-\*
+@|
+  *
+   *
+
+
 
 dances:
 - a particular movement sequence does something
@@ -130,4 +177,21 @@ sharing levels
 	- upload solutions from inside the game
 		- use base64 as encoding
 	- have top rated levels
+
+carefully choosing ideas that interact well...
+
+in: 
+shield
+blocks
+enemies
+
+maybe:
+ice
+turrets
+reflecting
+water, blocks fill water into land
+
+no:
+sword. drod has already done it so well
+a way to kill enemies directly
 
