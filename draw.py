@@ -14,6 +14,8 @@ def draw(win, world):
         x, y = to_screen(pos)
         win.addch(y, x, t)
     for e in world.entities:
+        if not e.solid:
+            continue
         x, y = to_screen(e.pos)
         win.addch(y, x, e.display_character)
     win.refresh()

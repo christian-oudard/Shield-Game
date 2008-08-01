@@ -1,6 +1,19 @@
 import log
 import vec
 
+DIRECTIONS = {
+    0: (0, -1),
+    1: (1, -1),
+    2: (1, 0),
+    3: (1, 1),
+    4: (0, 1),
+    5: (-1, 1),
+    6: (-1, 0),
+    7: (-1, -1),
+}
+R_DIRECTIONS = dict([(value, key) for key, value in DIRECTIONS.items()])
+print R_DIRECTIONS
+
 class Entity(object):
     def __init__(self, pos):
         self.pos = pos
@@ -44,16 +57,36 @@ class Polyomino(object):
 
 
 class Piece(Entity):
-    def __init__(self, pos):
-        Entity.__init__(self, pos)
-
     def move(self, dir_vec):
         return self.parent.move_poly(dir_vec)
 
 
+class Hero(Piece):
+    def create_shield(self):
+        self.shield_pieces = []
+        for i in range(8):
+            d = DIRECTIONS[i]
+            pos = vec.add(self.pos, d)
+            piece = Piece(pos)
+            piece.display_character = '*'
+            self.world.register_entity(piece)
+            self.shield_pieces.append(piece)
+        Polyomino([self] + self.shield_pieces)
+        self.shield((0, 0))
 
-class Hero(Entity):
-    pass
+    def shield(self, dir_vec):
+        for s in self.shield_pieces:
+            s.solid = False
+        try:
+            center = R_DIRECTIONS[dir_vec]
+        except KeyError:
+            return
+        left = (center - 1) % 8
+        right = (center + 1) % 8
+        self.shield_pieces[left].solid = True
+        self.shield_pieces[center].solid = True
+        self.shield_pieces[right].solid = True
+
 
 class Box(Entity):
     pass

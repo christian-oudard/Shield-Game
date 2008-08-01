@@ -28,15 +28,20 @@ class World(object):
                     poly_groups[code] = [e]
         for pieces in poly_groups.values():
             Polyomino(pieces)
+        self.hero.create_shield()
                                     
     def register_entity(self, entity):
         self.entities.add(entity)
         entity.world = self
 
     def update(self, command):
-        move_dir = command #STUB, all commands are movement commands
         self.checkpoint()
-        if not self.hero.move(move_dir):
+        type, dir_vec = command
+        if type == 'move':
+            result = self.hero.move(dir_vec)
+        elif type == 'shield':
+            result = self.hero.shield(dir_vec)
+        if not result:
             self.rollback()
             return
 
