@@ -12,12 +12,11 @@ class World(object):
         self.history = []
         self.terrain, self.board_size = parse_grid(terrain_string)
         entity_dict, _ = parse_grid(entity_string, ENTITY_BLANK)
-        self.hero = None
         self.entities = []
         for pos, code in entity_dict.items():
             Class = ENTITY_CODES[code]
             self.entities.append(Class(self, pos))
-            if Class is Hero and self.hero is None:
+            if Class is Hero: 
                 self.hero = self.entities[-1]
 
     def update(self, command):

@@ -7,7 +7,7 @@ import log
 import vec
 
 from world import World
-from constants import KEY_MAPPING
+from keys import KEY_MAPPING
 from draw import draw
 
 def curses_main(stdscr):
