@@ -18,10 +18,8 @@ def curses_main(stdscr):
         return
     while True:
         draw(stdscr, world)
-        c = stdscr.getch()
-        try:
-            command = KEY_MAPPING[c]
-        except KeyError:
+        command = get_command(stdscr)
+        if command is None:
             continue
         if command == 'undo':
             world.rollback()
@@ -31,6 +29,27 @@ def curses_main(stdscr):
             break
         else:
             world.update(command)
+
+def get_command(stdscr):
+    command = get_key(stdscr)
+    try:
+        if len(command) == 1: # dead key command, length 1 list
+            key = command[0]
+            _, dir_vec = get_key(stdscr)
+            return (key, dir_vec)
+    except TypeError:
+        return None
+    except ValueError:
+        return None
+    return command
+             
+def get_key(stdscr):
+    c = stdscr.getch()
+    try:
+        key = KEY_MAPPING[c]
+    except KeyError:
+        return #STUB
+    return key
 
 def init(stdscr):
     log.init('curses_game_log')
@@ -55,9 +74,7 @@ def load_level(filename):
         log.write('invalid level-size line: %r' % size_line)
         return None
     terrain_lines = ''.join(f.readline() for i in range(height))
-    log.write(terrain_lines)
     entity_lines = ''.join(f.readline() for i in range(height))
-    log.write(entity_lines)
     return World(terrain_lines, entity_lines)
 
 if __name__ == '__main__':

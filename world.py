@@ -96,5 +96,4 @@ def parse_grid(data_string, blanks=''):
         x, y = key
         data[(x-min_x, y-min_y)] = value
 
-    log.write('max x, max y =', max_x, ',', max_y)
     return data, (max_x + 1, max_y + 1)

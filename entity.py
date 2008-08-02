@@ -12,7 +12,6 @@ DIRECTIONS = {
     7: (-1, -1),
 }
 R_DIRECTIONS = dict([(value, key) for key, value in DIRECTIONS.items()])
-print R_DIRECTIONS
 
 class Entity(object):
     def __init__(self, pos):

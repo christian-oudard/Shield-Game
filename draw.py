@@ -7,7 +7,6 @@ ORIGIN_X, ORIGIN_Y = ORIGIN = (3, 2)
 
 def draw(win, world):
     board_x, board_y = world.board_size
-    log.write(world.board_size)
     win.erase()
     draw_border(win, ORIGIN_Y - 1, ORIGIN_X - 1, board_y + 1, board_x + 1)
     for pos, t in world.terrain.items():

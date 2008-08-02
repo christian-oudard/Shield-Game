@@ -10,6 +10,8 @@ KEY_MAPPING = {
     KEY_DOWN: ('move', (0, 1)),
     KEY_LEFT: ('move', (-1, 0)),
     KEY_RIGHT: ('move', (1, 0)),
+
+    # dvorak nethack-style bindings
     't': ('move', (0, -1)),
     'h': ('move', (0, 1)),
     'd': ('move', (-1, 0)),
@@ -28,6 +30,19 @@ KEY_MAPPING = {
     'B': ('shield', (-1, 1)),
     'M': ('shield', (1, 1)),
     'V': ('shield', (0, 0)),
+
+    # numpad bindings
+    '8': ('move', (0, -1)),
+    '2': ('move', (0, 1)),
+    '4': ('move', (-1, 0)),
+    '6': ('move', (1, 0)),
+    '7': ('move', (-1, -1)),
+    '9': ('move', (1, -1)),
+    '1': ('move', (-1, 1)),
+    '3': ('move', (1, 1)),
+    '5': ('move', (0, 0)),
+    '0': ('shield', (0, 0)),
+    '+': ('shield',), # dead-key for shield
 }
 for key, value in KEY_MAPPING.items():
     try:
