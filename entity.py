@@ -5,6 +5,7 @@ FLOOR = '.'
 WALL = '#'
 WATER = '~'
 SPIKE = 'x'
+GOAL = '$'
 
 DIRECTIONS = {
     0: (0, -1),
@@ -76,6 +77,13 @@ class Hero(Piece):
             SPIKE,
             WATER,
         ])
+
+    def finish_move(self, dir_vec):
+        terrain_type = self.world.get_terrain(self.pos)
+        if terrain_type == GOAL:
+            self.world.goal()
+            return True
+        return Entity.finish_move(self, dir_vec)
 
     def create_shield(self):
         self.shield_pieces = []

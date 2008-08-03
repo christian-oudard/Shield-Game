@@ -29,6 +29,13 @@ def curses_main(stdscr):
             break
         else:
             world.update(command)
+            if world.level_completed:
+                log.write('level finished')
+                print 'WINNER'
+                stdscr.refresh()
+                time.sleep(1)
+                #STUB, load next level
+                break
 
 def get_command(stdscr):
     command = get_key(stdscr)

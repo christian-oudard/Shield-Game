@@ -8,6 +8,7 @@ ENTITY_BLANK = '_'
 
 class World(object):
     def __init__(self, terrain_string, entity_string):
+        self.level_completed = False
         self.history = []
         self.terrain, self.board_size = parse_grid(terrain_string)
         entity_dict, _ = parse_grid(entity_string, ENTITY_BLANK)
@@ -45,6 +46,9 @@ class World(object):
         if not result:
             self.rollback()
             return
+
+    def goal(self):
+        self.level_completed = True
 
     def get_terrain(self, pos):
         try:
