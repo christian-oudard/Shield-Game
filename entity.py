@@ -1,6 +1,7 @@
 import log
 import vec
 
+FLOOR = '.'
 WALL = '#'
 WATER = '~'
 SPIKE = 'x'
@@ -20,7 +21,7 @@ R_DIRECTIONS = dict([(value, key) for key, value in DIRECTIONS.items()])
 class Entity(object):
     def __init__(self):
         self.solid = True
-        self.illegal_terrain = [WALL]
+        self.illegal_terrain = [None, WALL]
 
     def move(self, dir_vec):
         self.start_move(dir_vec)
@@ -30,19 +31,16 @@ class Entity(object):
         self.pos = vec.add(self.pos, dir_vec)
 
     def finish_move(self, dir_vec):
-        if self.solid and self.collide_terrain(self.pos):
+        if self.solid and self.collide_terrain():
             return False
         e = self.collide_entity()
         if e:
             return e.move(dir_vec)
         return True
 
-    def collide_terrain(self, pos):
-        try:
-            terrain_type = self.world.terrain[pos]
-            return terrain_type in self.illegal_terrain
-        except KeyError:
-            return True
+    def collide_terrain(self):
+        terrain_type = self.world.get_terrain(self.pos)
+        return terrain_type in self.illegal_terrain
 
     def collide_entity(self):
         if not self.solid:
@@ -74,7 +72,10 @@ class Piece(Entity):
 class Hero(Piece):
     def __init__(self):
         Piece.__init__(self)
-        self.illegal_terrain.append(SPIKE)
+        self.illegal_terrain.extend([
+            SPIKE,
+            WATER,
+        ])
 
     def create_shield(self):
         self.shield_pieces = []
@@ -108,7 +109,16 @@ class Hero(Piece):
 
 
 class Block(Entity):
-    pass
+    def __init__(self):
+        Entity.__init__(self)
+
+    def finish_move(self, dir_vec):
+        terrain_type = self.world.get_terrain(self.pos)
+        if terrain_type == WATER:
+            self.world.terrain[self.pos] = FLOOR
+            self.solid = False
+            return True
+        return Entity.finish_move(self, dir_vec)
 
 ENTITY_CODES = {
     '@': Hero,

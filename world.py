@@ -1,4 +1,4 @@
-from copy import deepcopy
+from copy import copy
 
 import log
 
@@ -29,6 +29,7 @@ class World(object):
         for pieces in poly_groups.values():
             Polyomino(pieces)
         self.hero.create_shield()
+        self.entities = tuple(self.entities)
                                     
     def register_entity(self, entity):
         self.entities.add(entity)
@@ -45,10 +46,17 @@ class World(object):
             self.rollback()
             return
 
+    def get_terrain(self, pos):
+        try:
+            return self.terrain[pos]
+        except KeyError:
+            return None
+
     def checkpoint(self):
         history_item = {
-            'positions': tuple(b.pos for b in self.entities),
-            'shield': self.hero.shield_position,
+            'positions': tuple(e.pos for e in self.entities),
+            'solidity': tuple(e.solid for e in self.entities),
+            'terrain': copy(self.terrain)
         }
         self.history.append(history_item)
     
@@ -57,9 +65,11 @@ class World(object):
             history_item = self.history.pop()
         except IndexError:
             return False
+        self.terrain = history_item['terrain']
         for e, old_pos in zip(self.entities, history_item['positions']):
             e.pos = old_pos
-        self.hero.shield(history_item['shield'])
+        for e, old_solid in zip(self.entities, history_item['solidity']):
+            e.solid = old_solid
 
 
 def parse_grid(data_string, blanks=''):

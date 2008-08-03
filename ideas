@@ -183,13 +183,18 @@ carefully choosing ideas that interact well...
 in: 
 shield
 blocks
-enemies
+	heavy, light
+water
+	heavy blocks fill water into land
+	light blocks float on water
+switches, gates
+stairs as win condition
 
 maybe:
+enemies
 ice
 turrets
 reflecting
-water, blocks fill water into land
 
 no:
 sword. drod has already done it so well
