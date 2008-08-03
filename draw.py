@@ -3,15 +3,19 @@ from curses import *
 import log
 import vec
 
+from entity import FLOOR
+
 ORIGIN_X, ORIGIN_Y = ORIGIN = (3, 2)
 
 def draw(win, world):
     board_x, board_y = world.board_size
     win.erase()
     draw_border(win, ORIGIN_Y - 1, ORIGIN_X - 1, board_y + 1, board_x + 1)
-    for pos, t in world.terrain.items():
+    for pos, ter in world.terrain.items():
+        if ter == FLOOR:
+            ter = ' '
         x, y = to_screen(pos)
-        win.addch(y, x, t)
+        win.addch(y, x, ter)
     for e in world.entities:
         if not e.solid:
             continue

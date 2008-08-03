@@ -8,7 +8,7 @@ import log
 import vec
 
 from world import World
-from keys import KEY_MAPPING
+from keys import get_command
 from draw import draw
 
 def curses_main(stdscr):
@@ -31,33 +31,11 @@ def curses_main(stdscr):
             world.update(command)
             if world.level_completed:
                 log.write('level finished')
-                print 'WINNER'
+                stdscr.addstr(0, 0, 'WINNER')
                 stdscr.refresh()
                 time.sleep(1)
                 #STUB, load next level
                 break
-
-def get_command(stdscr):
-    command = get_key(stdscr)
-    try:
-        if len(command) == 1: # dead key command, length 1 list
-            key = command[0]
-            _, dir_vec = get_key(stdscr)
-            return (key, dir_vec)
-    except TypeError:
-        return None
-    except ValueError:
-        return None
-    return command
-             
-def get_key(stdscr):
-    c = stdscr.getch()
-    try:
-        key = KEY_MAPPING[c]
-    except KeyError:
-        return #STUB
-    return key
-
 def init(stdscr):
     log.init('curses_game_log')
     curses.curs_set(0)
