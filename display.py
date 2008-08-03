@@ -45,11 +45,11 @@ class Display(object):
             (bottom, right),
         )
         for y, x in corners:
-            self.scr.addch(y, x, '+')
-        self.scr.hline(top, left + 1, '-', width - 1)
-        self.scr.hline(bottom, left + 1, '-', width - 1)
-        self.scr.vline(top + 1, left, '|', height - 1)
-        self.scr.vline(top + 1, right, '|', height - 1)
+            self.scr.addch(y, x, '#')
+        self.scr.hline(top, left + 1, '#', width - 1)
+        self.scr.hline(bottom, left + 1, '#', width - 1)
+        self.scr.vline(top + 1, left, '#', height - 1)
+        self.scr.vline(top + 1, right, '#', height - 1)
 
 def to_screen(pos):
     return vec.add(pos, ORIGIN)

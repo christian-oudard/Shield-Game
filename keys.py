@@ -6,6 +6,7 @@ from curses import *
 KEY_MAPPING = {
     'q': 'quit',
     'u': 'undo',
+    '-': 'undo',
     KEY_DC: 'undo',
     KEY_BACKSPACE: 'undo',
     KEY_UP: ('move', (0, -1)),
@@ -43,6 +44,7 @@ KEY_MAPPING = {
     '1': ('move', (-1, 1)),
     '3': ('move', (1, 1)),
     '5': ('move', (0, 0)),
+    '0': ('shield', (0, 0)),
     '+': ('shield',), # dead-key for shield
 }
 for key, value in KEY_MAPPING.items():

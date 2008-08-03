@@ -96,6 +96,13 @@ slow enemy:
 fast enemy or projectile:
 - goes 2 or 3 squares per turn
 
+turret
+- shoots at you from any of 8 directions
+- use walls to restrict turrets
+- block turret with crates or shield or enemies
+- use turret to kill enemies
+
+
 original ideas
 
 sword based:
@@ -189,6 +196,7 @@ water
 	light blocks float on water
 switches, gates
 stairs as win condition
+info blocks
 
 maybe:
 enemies
@@ -200,3 +208,19 @@ no:
 sword. drod has already done it so well
 a way to kill enemies directly
 
+level progression:
+movement; 1
+diagonal movement; 1
+blocks, pushing blocks out of the way; 2-3
+diagonal pushing; 3-4
+water, pushing blocks into water; 5+
+pushing with shield, water
+pushing diagonally with shield
+opening shield to push
+opening shield diagonally to push
+spikes, pushing block over spikes; 3
+shield, blocks, water, spikes; 10+
+
+shield from turrets, diagonally too; 1
+turrets, blocking turrets with blocks
+turrets, blocks, water 
