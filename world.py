@@ -5,7 +5,6 @@ import log
 from entity import *
 
 ENTITY_BLANK = '_'
-WALL = '#'
 
 class World(object):
     def __init__(self, terrain_string, entity_string):
@@ -16,7 +15,8 @@ class World(object):
         poly_groups = {}
         for pos, code in entity_dict.items():
             Class = ENTITY_CODES[code]
-            e = Class(pos)
+            e = Class()
+            e.pos = pos
             e.display_character = code
             self.register_entity(e)
             if Class is Hero: 
@@ -61,11 +61,6 @@ class World(object):
             e.pos = old_pos
         self.hero.shield(history_item['shield'])
 
-    def collide_terrain(self, pos):
-        try:
-            return self.terrain[pos] == WALL
-        except KeyError:
-            return True
 
 def parse_grid(data_string, blanks=''):
     lines = data_string.split('\n')

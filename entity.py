@@ -1,6 +1,10 @@
 import log
 import vec
 
+WALL = '#'
+WATER = '~'
+SPIKE = 'x'
+
 DIRECTIONS = {
     0: (0, -1),
     1: (1, -1),
@@ -14,9 +18,9 @@ DIRECTIONS = {
 R_DIRECTIONS = dict([(value, key) for key, value in DIRECTIONS.items()])
 
 class Entity(object):
-    def __init__(self, pos):
-        self.pos = pos
+    def __init__(self):
         self.solid = True
+        self.illegal_terrain = [WALL]
 
     def move(self, dir_vec):
         self.start_move(dir_vec)
@@ -26,12 +30,19 @@ class Entity(object):
         self.pos = vec.add(self.pos, dir_vec)
 
     def finish_move(self, dir_vec):
-        if self.solid and self.world.collide_terrain(self.pos):
+        if self.solid and self.collide_terrain(self.pos):
             return False
         e = self.collide_entity()
         if e:
             return e.move(dir_vec)
         return True
+
+    def collide_terrain(self, pos):
+        try:
+            terrain_type = self.world.terrain[pos]
+            return terrain_type in self.illegal_terrain
+        except KeyError:
+            return True
 
     def collide_entity(self):
         if not self.solid:
@@ -61,13 +72,18 @@ class Piece(Entity):
 
 
 class Hero(Piece):
+    def __init__(self):
+        Piece.__init__(self)
+        self.illegal_terrain.append(SPIKE)
+
     def create_shield(self):
         self.shield_pieces = []
         for i in range(8):
             d = DIRECTIONS[i]
             pos = vec.add(self.pos, d)
-            piece = Piece(pos)
-            piece.display_character = '*'
+            piece = Piece()
+            piece.pos = pos
+            piece.display_character = '-\|/'[i % 4]
             self.world.register_entity(piece)
             self.shield_pieces.append(piece)
         Polyomino([self] + self.shield_pieces)
@@ -91,12 +107,12 @@ class Hero(Piece):
         return True #STUB, check whether there is room
 
 
-class Box(Entity):
+class Block(Entity):
     pass
 
 ENTITY_CODES = {
     '@': Hero,
-    'X': Box,
+    '0': Block,
     'A': Piece,
     'B': Piece,
     'C': Piece,
