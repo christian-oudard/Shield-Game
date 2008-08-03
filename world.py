@@ -63,8 +63,12 @@ class World(object):
             'terrain': copy(self.terrain)
         }
         self.history.append(history_item)
-    
+
     def rollback(self):
+        self.display.show_bump(self)
+        self.undo()
+    
+    def undo(self):
         try:
             history_item = self.history.pop()
         except IndexError:

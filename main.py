@@ -9,20 +9,21 @@ import vec
 
 from world import World
 from keys import get_command
-from draw import draw
+from display import Display
 
 def curses_main(stdscr):
-    init(stdscr)
+    display = init(stdscr)
     world = load_level(sys.argv[1])
     if world is None:
         return
+    world.display = display
     while True:
-        draw(stdscr, world)
+        display.draw(world)
         command = get_command(stdscr)
         if command is None:
             continue
         if command == 'undo':
-            world.rollback()
+            world.undo()
         elif command == 'quit':
             stdscr.erase()
             stdscr.refresh()
@@ -31,15 +32,16 @@ def curses_main(stdscr):
             world.update(command)
             if world.level_completed:
                 log.write('level finished')
+                display.draw(world)
                 stdscr.addstr(0, 0, 'WINNER')
                 stdscr.refresh()
                 time.sleep(1)
                 #STUB, load next level
                 break
+
 def init(stdscr):
     log.init('curses_game_log')
-    curses.curs_set(0)
-    stdscr.refresh() # refresh right away so first call to stdscr.getch() doesn't overwrite the first draw()
+    return Display(stdscr)
 
 import os
 LEVEL_PATH = 'levels'

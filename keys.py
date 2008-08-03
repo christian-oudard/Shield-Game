@@ -6,6 +6,8 @@ from curses import *
 KEY_MAPPING = {
     'q': 'quit',
     'u': 'undo',
+    KEY_DC: 'undo',
+    KEY_BACKSPACE: 'undo',
     KEY_UP: ('move', (0, -1)),
     KEY_DOWN: ('move', (0, 1)),
     KEY_LEFT: ('move', (-1, 0)),
