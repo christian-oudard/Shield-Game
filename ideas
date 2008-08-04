@@ -209,18 +209,30 @@ sword. drod has already done it so well
 a way to kill enemies directly
 
 level progression:
-movement; 1
-diagonal movement; 1
-blocks, pushing blocks out of the way; 2-3
-diagonal pushing; 3-4
-water, pushing blocks into water; 5+
-pushing with shield, water
-pushing diagonally with shield
-opening shield to push
-opening shield diagonally to push
-spikes, pushing block over spikes; 3
-shield, blocks, water, spikes; 10+
+x movement; 1
+x diagonal movement; 1
+- blocks, pushing blocks out of the way; 2-3
+	- simple
+	- diagonal
+	- multiple
+- diagonal pushing; 3-4
+- water, pushing blocks into water; 5+
+- pushing with shield, water
+- pushing diagonally with shield
+- opening shield to push
+- opening shield diagonally to push
+- spikes, pushing block over spikes; 3
+- shield, blocks, water, spikes; 10+
+ 
+- shield from turrets, diagonally too; 1
+- turrets, blocking turrets with blocks
+- turrets, blocks, water 
 
-shield from turrets, diagonally too; 1
-turrets, blocking turrets with blocks
-turrets, blocks, water 
+info todo:
+- Normally, you cannot cross water. However, if you push a block into water, it sinks and becomes a floor.
+.....~...
+.i.0.~.$.
+.....~...
+
+- shield 
+

@@ -24,11 +24,12 @@ class Display(object):
         self.scr.addstr(ORIGIN_Y + board_y + 2, 0, message)
 
     def show_info(self):
-        pos = self.world.hero.pos
-        if pos not in self.world.info_spaces:
-            return
-        info = world.info_spaces[pos]
-        self.show_message(info)
+        try:
+            pos = self.world.hero.pos
+            info = self.world.info_spaces[pos]
+            self.show_message(info)
+        except KeyError:
+            pass
     
     def draw(self):
         board_x, board_y = self.world.board_size

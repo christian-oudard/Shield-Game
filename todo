@@ -1,6 +1,4 @@
-refactoring:
-- review of shield code and refactoring
-- main.py:load_level
+- level design
 
 features:
 - effects

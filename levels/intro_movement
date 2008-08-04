@@ -18,10 +18,13 @@ _________
 #i 1, 1
 Welcome!
 To move around, use the numpad.
-8 -- North
-2 -- South
-6 -- East
-4 -- West
+
+   8     8 -- North
+   |     2 -- South
+ 4-@-6   6 -- East
+   |     4 -- West
+   2
+
 Go east to continue.
 
 #i 7, 1
