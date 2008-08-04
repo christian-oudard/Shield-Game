@@ -40,11 +40,11 @@ class World(object):
 
     def update(self, command):
         self.checkpoint()
-        type, dir_vec = command
+        type, direction = command
         if type == 'move':
-            result = self.hero.move(dir_vec)
+            result = self.hero.move(direction)
         elif type == 'shield':
-            result = self.hero.shield(dir_vec)
+            result = self.hero.shield(direction)
         if not result:
             self.rollback()
         else:

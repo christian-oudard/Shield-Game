@@ -16,7 +16,7 @@ class Display(object):
         scr.refresh() # refresh right away so first call to stdscr.getch() doesn't overwrite the first draw()
 
     def show_bump(self):
-        self.draw(self.world)
+        self.draw()
         time.sleep(.2)
 
     def show_message(self, message):
@@ -34,6 +34,8 @@ class Display(object):
         board_x, board_y = self.world.board_size
         self.scr.erase()
         self.draw_border(ORIGIN_Y - 1, ORIGIN_X - 1, board_y + 1, board_x + 1)
+        self.show_info()
+        self.scr.addstr(0, 0, str(self.world.num_moves))#DEBUG
         for pos, ter in self.world.terrain.items():
             if ter == FLOOR:
                 ter = ' '
@@ -44,8 +46,6 @@ class Display(object):
                 continue
             x, y = to_screen(e.pos)
             self.scr.addch(y, x, e.display_character)
-        self.show_info()
-        self.scr.addstr(0, 0, str(self.world.num_moves))#DEBUG
         self.scr.refresh()
 
     def draw_border(self, top, left, height, width):

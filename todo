@@ -1,6 +1,5 @@
 refactoring:
 - dir_vec is a stupid name
-- get_command is a mess
 - load_level is a mess
 - review of shield code and refactoring
 - refactor block sinking into water collide_terrain() code, reduce duplication

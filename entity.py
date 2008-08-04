@@ -24,19 +24,19 @@ class Entity(object):
         self.solid = True
         self.illegal_terrain = [None, WALL]
 
-    def move(self, dir_vec):
-        self.start_move(dir_vec)
-        return self.finish_move(dir_vec)
+    def move(self, direction):
+        self.start_move(direction)
+        return self.finish_move(direction)
 
-    def start_move(self, dir_vec):
-        self.pos = vec.add(self.pos, dir_vec)
+    def start_move(self, direction):
+        self.pos = vec.add(self.pos, direction)
 
-    def finish_move(self, dir_vec):
+    def finish_move(self, direction):
         if self.solid and self.collide_terrain():
             return False
         e = self.collide_entity()
         if e:
-            return e.move(dir_vec)
+            return e.move(direction)
         return True
 
     def collide_terrain(self):
@@ -59,15 +59,15 @@ class Polyomino(object):
         for p in self.pieces:
             p.parent = self
 
-    def move_poly(self, dir_vec):
+    def move_poly(self, direction):
         for p in self.pieces:
-            p.start_move(dir_vec)
-        return all(p.finish_move(dir_vec) for p in self.pieces)
+            p.start_move(direction)
+        return all(p.finish_move(direction) for p in self.pieces)
 
 
 class Piece(Entity):
-    def move(self, dir_vec):
-        return self.parent.move_poly(dir_vec)
+    def move(self, direction):
+        return self.parent.move_poly(direction)
 
 
 class Hero(Piece):
@@ -78,12 +78,12 @@ class Hero(Piece):
             WATER,
         ])
 
-    def finish_move(self, dir_vec):
+    def finish_move(self, direction):
         terrain_type = self.world.get_terrain(self.pos)
         if terrain_type == GOAL:
             self.world.goal()
             return True
-        return Entity.finish_move(self, dir_vec)
+        return Entity.finish_move(self, direction)
 
     def create_shield(self):
         self.shield_pieces = []
@@ -98,12 +98,12 @@ class Hero(Piece):
         Polyomino([self] + self.shield_pieces)
         self.shield((0, 0))
 
-    def shield(self, dir_vec):
-        self.shield_position = dir_vec
+    def shield(self, direction):
+        self.shield_position = direction
         for s in self.shield_pieces:
             s.solid = False
         try:
-            center = R_DIRECTIONS[dir_vec]
+            center = R_DIRECTIONS[direction]
         except KeyError:
             return True
         left = (center - 1) % 8
@@ -111,7 +111,7 @@ class Hero(Piece):
         for d in (left, center, right):
             p = self.shield_pieces[d]
             p.solid = True
-            if not p.finish_move(dir_vec):
+            if not p.finish_move(direction):
                 return False
         return True #STUB, check whether there is room
 
@@ -120,13 +120,13 @@ class Block(Entity):
     def __init__(self):
         Entity.__init__(self)
 
-    def finish_move(self, dir_vec):
+    def finish_move(self, direction):
         terrain_type = self.world.get_terrain(self.pos)
         if terrain_type == WATER:
             self.world.terrain[self.pos] = FLOOR
             self.solid = False
             return True
-        return Entity.finish_move(self, dir_vec)
+        return Entity.finish_move(self, direction)
 
 ENTITY_CODES = {
     '@': Hero,
