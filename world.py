@@ -10,6 +10,7 @@ class World(object):
     def __init__(self, terrain_string, entity_string):
         self.level_completed = False
         self.history = []
+        self.info_spaces = {}
         self.terrain, self.board_size = parse_grid(terrain_string)
         entity_dict, _ = parse_grid(entity_string, ENTITY_BLANK)
         self.entities = set()
@@ -48,7 +49,9 @@ class World(object):
             return
 
     def goal(self):
+        log.write('level finished')
         self.level_completed = True
+        self.display.show_message(self, 'Level Completed')
 
     def get_terrain(self, pos):
         try:

@@ -24,8 +24,12 @@ To move around, use the numpad.
 4 -- West
 Go east to continue.
 
-#i 1, 7
-The spaces marked with the "i" symbol give you information. Try moving through the maze to get to the next information marker.
+#i 7, 1
+The spaces marked with the "i" symbol
+give you information. Try moving through
+the maze to get to the next information
+marker.
 
 #i 4, 4
-To win the level, get to the space marked "$".
+To win the level, get to the space
+marked "$".

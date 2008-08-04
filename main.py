@@ -31,9 +31,8 @@ def curses_main(stdscr):
         else:
             world.update(command)
             if world.level_completed:
-                log.write('level finished')
                 display.draw(world)
-                stdscr.addstr(0, 0, 'WINNER')
+                display.show_message(world, 'Level Completed')
                 stdscr.refresh()
                 time.sleep(1)
                 #STUB, load next level
@@ -44,13 +43,11 @@ def init(stdscr):
     return Display(stdscr)
 
 import os
-LEVEL_PATH = 'levels'
 def load_level(filename):
-    file_path = os.path.join(LEVEL_PATH, filename)
     try:
-        f = open(file_path)
+        f = open(filename)
     except IOError:
-        log.write('level file "%s" not found' % file_path)
+        log.write('level file "%s" not found' % filename)
         return None
     size_line = f.readline()
     try:
@@ -62,7 +59,21 @@ def load_level(filename):
         return None
     terrain_lines = ''.join(f.readline() for i in range(height))
     entity_lines = ''.join(f.readline() for i in range(height))
-    return World(terrain_lines, entity_lines)
+    world = World(terrain_lines, entity_lines)
+    tags = f.read() # remainder of file is tag lines
+    tags_list = tags.split('#')
+    for tag in tags_list:
+        if tag.strip() == '':
+            continue
+        tag_lines = tag.split('\n')
+        header_line = tag_lines.pop(0).strip()
+        tag_type, arguments = header_line.split(' ', 1)
+        if tag_type == 'i':
+            x, y = [int(a.strip()) for a in arguments.split(',', 1)]
+            pos = (x, y)
+            assert(world.terrain[pos] == 'i')
+            world.info_spaces[pos] = '\n'.join(tag_lines)
+    return world
 
 if __name__ == '__main__':
     curses.wrapper(curses_main)

@@ -19,6 +19,16 @@ class Display(object):
         self.draw(world)
         time.sleep(.2)
 
+    def show_message(self, world, message):
+        board_x, board_y = world.board_size
+        self.scr.addstr(ORIGIN_Y + board_y + 2, 0, message)
+
+    def show_info(self, world, pos):
+        if pos not in world.info_spaces:
+            return
+        info = world.info_spaces[pos]
+        self.show_message(world, info)
+    
     def draw(self, world):
         board_x, board_y = world.board_size
         self.scr.erase()
@@ -33,6 +43,7 @@ class Display(object):
                 continue
             x, y = to_screen(e.pos)
             self.scr.addch(y, x, e.display_character)
+        self.show_info(world, world.hero.pos)
         self.scr.refresh()
 
     def draw_border(self, top, left, height, width):
