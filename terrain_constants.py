@@ -1,0 +1,5 @@
+FLOOR = '.'
+WALL = '#'
+WATER = '~'
+SPIKE = 'x'
+GOAL = '$'

@@ -40,7 +40,7 @@ def curses_main(stdscr):
             else:
                 try:
                     action, direction = command2
-                except KeyError:
+                except TypeError:
                     continue
                 world.update(('shield', direction))
         else:

@@ -2,7 +2,10 @@ from copy import copy
 
 import log
 
-from entity import *
+from entity_codes import ENTITY_CODES
+from entity import Entity
+from hero import Hero
+from polyomino import Polyomino, Piece
 
 ENTITY_BLANK = '_'
 

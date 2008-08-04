@@ -5,7 +5,7 @@ from curses import *
 import log
 import vec
 
-from entity import FLOOR
+from terrain_constants import FLOOR
 
 ORIGIN_X, ORIGIN_Y = ORIGIN = (3, 2)
 

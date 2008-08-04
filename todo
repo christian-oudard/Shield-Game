@@ -1,8 +1,6 @@
 refactoring:
-- dir_vec is a stupid name
-- load_level is a mess
 - review of shield code and refactoring
-- refactor block sinking into water collide_terrain() code, reduce duplication
+- main.py:load_level
 
 features:
 - effects
@@ -15,9 +13,6 @@ features:
 	- rounded corners for walls, to show that you may move through diagonally tight spaces
 	- motion between states
 
-structure
-- polyomino to have start_move and end_move?
-- use set_solid() and set_invisible(), with collision checking?
-
 bugs:
 - hero can finish level if next to goal even if he can't legally move onto goal
+- bump display when opening shield is usually incomplete
