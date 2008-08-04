@@ -30,9 +30,11 @@ def curses_main(stdscr):
             if get_command(stdscr) == 'restart':
                 world.restart()
         elif command == 'quit':
-            stdscr.erase()
-            stdscr.refresh()
-            break
+            display.show_message('Press key again to quit game.')
+            if get_command(stdscr) == 'quit':
+                stdscr.erase()
+                stdscr.refresh()
+                break
         elif command == 'shield':
             command2 = get_command(stdscr)
             if command2 == 'shield':

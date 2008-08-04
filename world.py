@@ -3,9 +3,9 @@ from copy import copy
 import log
 
 from entity_codes import ENTITY_CODES
-from entity import Entity
-from hero import Hero
-from polyomino import Polyomino, Piece
+from entity.entity import Entity
+from entity.hero import Hero
+from entity.polyomino import Polyomino, Piece
 
 ENTITY_BLANK = '_'
 
@@ -15,31 +15,8 @@ class World(object):
         self.num_moves = 0
         self.history = []
         self.info_spaces = {}
-        self.terrain, self.board_size = parse_grid(terrain_string)
-        entity_dict, _ = parse_grid(entity_string, ENTITY_BLANK)
-        self.entities = set()
-        poly_groups = {}
-        for pos, code in entity_dict.items():
-            Class = ENTITY_CODES[code]
-            e = Class()
-            e.pos = pos
-            e.display_character = code
-            self.register_entity(e)
-            if Class is Hero: 
-                self.hero = e
-            elif Class is Piece:
-                try:
-                    poly_groups[code].append(e)
-                except KeyError:
-                    poly_groups[code] = [e]
-        for pieces in poly_groups.values():
-            Polyomino(pieces)
-        self.hero.create_shield()
-        self.entities = tuple(self.entities)
-                                    
-    def register_entity(self, entity):
-        self.entities.add(entity)
-        entity.world = self
+        self.init_terrain(terrain_string)
+        self.init_entities(entity_string)
 
     def update(self, command):
         self.checkpoint()
@@ -91,6 +68,35 @@ class World(object):
             e.pos = old_pos
         for e, old_solid in zip(self.entities, history_item['solidity']):
             e.solid = old_solid
+
+    def init_terrain(self, terrain_string):
+        self.terrain, self.board_size = parse_grid(terrain_string)
+
+    def init_entities(self, entity_string):
+        entity_dict, _ = parse_grid(entity_string, ENTITY_BLANK)
+        self.entities = set()
+        poly_groups = {}
+        for pos, code in entity_dict.items():
+            Class = ENTITY_CODES[code]
+            e = Class()
+            e.pos = pos
+            e.display_character = code
+            self.register_entity(e)
+            if Class is Hero: 
+                self.hero = e
+            elif Class is Piece:
+                try:
+                    poly_groups[code].append(e)
+                except KeyError:
+                    poly_groups[code] = [e]
+        for pieces in poly_groups.values():
+            Polyomino(pieces)
+        self.hero.create_shield()
+        self.entities = tuple(self.entities)
+                                    
+    def register_entity(self, entity):
+        self.entities.add(entity)
+        entity.world = self
 
 
 def parse_grid(data_string, blanks=''):
