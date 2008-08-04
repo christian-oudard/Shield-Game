@@ -5,7 +5,6 @@ from curses import *
 # where dx and dy are the difference in x and y coordinate
 KEY_MAPPING = {
     'q': 'quit',
-    'r': 'restart',
     'u': 'undo',
     '-': 'undo',
     KEY_DC: 'undo',
@@ -14,7 +13,7 @@ KEY_MAPPING = {
     KEY_DOWN: ('move', (0, 1)),
     KEY_LEFT: ('move', (-1, 0)),
     KEY_RIGHT: ('move', (1, 0)),
-    ' ': ('shield',), # dead-key for shield
+    ' ': 'shield', # dead-key for shield
 
     # dvorak nethack-style bindings
     't': ('move', (0, -1)),
@@ -46,7 +45,7 @@ KEY_MAPPING = {
     '3': ('move', (1, 1)),
     '5': ('move', (0, 0)),
     '0': ('shield', (0, 0)),
-    '+': ('shield',), # dead-key for shield
+    '+': 'shield', # dead-key for shield
 }
 for key, value in KEY_MAPPING.items():
     try:
@@ -55,27 +54,8 @@ for key, value in KEY_MAPPING.items():
         pass
 
 def get_command(stdscr):
-    command = get_key(stdscr)
-    try:
-        if len(command) == 1: # dead key command, length 1 list
-            key = command[0]
-            command2 = get_key(stdscr)
-            if len(command2) == 1:
-                key2 = command2[0]
-                if key == key2:
-                    return (key, (0, 0))
-            _, dir_vec = command2
-            return (key, dir_vec)
-    except TypeError:
-        return None
-    except ValueError:
-        return None
-    return command
-             
-def get_key(stdscr):
     c = stdscr.getch()
     try:
-        key = KEY_MAPPING[c]
+        return KEY_MAPPING[c]
     except KeyError:
-        return #STUB
-    return key
+        return None

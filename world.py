@@ -70,7 +70,7 @@ class World(object):
         self.history.append(history_item)
 
     def rollback(self):
-        self.display.show_bump(self)
+        self.display.show_bump()
         self.undo()
     
     def restart(self):

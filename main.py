@@ -14,33 +14,44 @@ from display import Display
 def curses_main(stdscr):
     display = init(stdscr)
     world = load_level(sys.argv[1])
+    display.world = world
     if world is None:
         return
     world.display = display
     while True:
-        display.draw(world)
+        display.draw()
         command = get_command(stdscr)
         if command is None:
             continue
         if command == 'undo':
             world.undo()
         elif command == 'restart':
-            display.show_message(world, 'Press key again to restart level.')
+            display.show_message('Press key again to restart level.')
             if get_command(stdscr) == 'restart':
                 world.restart()
         elif command == 'quit':
             stdscr.erase()
             stdscr.refresh()
             break
+        elif command == 'shield':
+            command2 = get_command(stdscr)
+            if command2 == 'shield':
+                world.update(('shield', (0, 0)))
+            else:
+                try:
+                    action, direction = command2
+                except KeyError:
+                    continue
+                world.update(('shield', direction))
         else:
             world.update(command)
-            if world.level_completed:
-                display.draw(world)
-                display.show_message(world, 'Level Completed in %i moves' % world.num_moves)
-                stdscr.refresh()
-                time.sleep(1)
-                #STUB, load next level
-                break
+        if world.level_completed:
+            display.draw()
+            display.show_message('Level Completed in %i moves' % world.num_moves)
+            stdscr.refresh()
+            time.sleep(1)
+            #STUB, load next level
+            break
 
 def init(stdscr):
     log.init('curses_game_log')

@@ -1,12 +1,11 @@
 refactoring:
-- it's ugly that display commands require the world as an argument
+- dir_vec is a stupid name
 - get_command is a mess
 - load_level is a mess
 - review of shield code and refactoring
 - refactor block sinking into water collide_terrain() code, reduce duplication
 
 features:
-- number of moves tracking
 - effects
 	- color
 	- show when a dead-key command is pending
