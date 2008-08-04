@@ -5,6 +5,7 @@ from curses import *
 # where dx and dy are the difference in x and y coordinate
 KEY_MAPPING = {
     'q': 'quit',
+    'r': 'restart',
     'u': 'undo',
     '-': 'undo',
     KEY_DC: 'undo',

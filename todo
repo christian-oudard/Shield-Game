@@ -1,4 +1,5 @@
-todo:
+refactoring:
+- it's ugly that display commands require the world as an argument
 - get_command is a mess
 - load_level is a mess
 - review of shield code and refactoring

@@ -9,6 +9,7 @@ ENTITY_BLANK = '_'
 class World(object):
     def __init__(self, terrain_string, entity_string):
         self.level_completed = False
+        self.num_moves = 0
         self.history = []
         self.info_spaces = {}
         self.terrain, self.board_size = parse_grid(terrain_string)
@@ -46,12 +47,12 @@ class World(object):
             result = self.hero.shield(dir_vec)
         if not result:
             self.rollback()
-            return
+        else:
+            self.num_moves += 1
 
     def goal(self):
         log.write('level finished')
         self.level_completed = True
-        self.display.show_message(self, 'Level Completed')
 
     def get_terrain(self, pos):
         try:
@@ -61,9 +62,10 @@ class World(object):
 
     def checkpoint(self):
         history_item = {
+            'moves' : self.num_moves,
+            'terrain': copy(self.terrain),
             'positions': tuple(e.pos for e in self.entities),
             'solidity': tuple(e.solid for e in self.entities),
-            'terrain': copy(self.terrain)
         }
         self.history.append(history_item)
 
@@ -71,11 +73,16 @@ class World(object):
         self.display.show_bump(self)
         self.undo()
     
+    def restart(self):
+        self.history = [self.history[0]]
+        self.undo()
+
     def undo(self):
         try:
             history_item = self.history.pop()
         except IndexError:
             return False
+        self.num_moves = history_item['moves']
         self.terrain = history_item['terrain']
         for e, old_pos in zip(self.entities, history_item['positions']):
             e.pos = old_pos

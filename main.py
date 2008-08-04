@@ -24,6 +24,10 @@ def curses_main(stdscr):
             continue
         if command == 'undo':
             world.undo()
+        elif command == 'restart':
+            display.show_message(world, 'Press key again to restart level.')
+            if get_command(stdscr) == 'restart':
+                world.restart()
         elif command == 'quit':
             stdscr.erase()
             stdscr.refresh()
@@ -32,7 +36,7 @@ def curses_main(stdscr):
             world.update(command)
             if world.level_completed:
                 display.draw(world)
-                display.show_message(world, 'Level Completed')
+                display.show_message(world, 'Level Completed in %i moves' % world.num_moves)
                 stdscr.refresh()
                 time.sleep(1)
                 #STUB, load next level

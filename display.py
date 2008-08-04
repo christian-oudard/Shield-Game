@@ -44,6 +44,7 @@ class Display(object):
             x, y = to_screen(e.pos)
             self.scr.addch(y, x, e.display_character)
         self.show_info(world, world.hero.pos)
+        self.scr.addstr(0, 0, str(world.num_moves))#DEBUG
         self.scr.refresh()
 
     def draw_border(self, top, left, height, width):
