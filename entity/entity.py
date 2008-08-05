@@ -10,7 +10,10 @@ class Entity(object):
 
     def move(self, direction):
         self.start_move(direction)
-        return self.finish_move(direction)
+        result = self.finish_move(direction)
+        if result:
+            self.terrain_trigger()
+        return result
 
     def start_move(self, direction):
         self.pos = vec.add(self.pos, direction)
@@ -36,6 +39,9 @@ class Entity(object):
             if self.pos == b.pos:
                 return b
 
+    def current_terrain(self):
+        return self.world.get_terrain(self.pos)
 
-
+    def terrain_trigger(self):
+        pass # overriden in subclasses
 

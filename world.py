@@ -84,7 +84,7 @@ class World(object):
             self.register_entity(e)
             if Class is Hero: 
                 self.hero = e
-            elif Class is Piece:
+            elif isinstance(e, Piece):
                 try:
                     poly_groups[code].append(e)
                 except KeyError:

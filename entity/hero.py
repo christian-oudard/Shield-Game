@@ -1,6 +1,6 @@
+import log
 import vec
 
-from entity import Entity
 from polyomino import Polyomino, Piece
 from terrain_constants import WATER, SPIKE, GOAL
 
@@ -23,13 +23,6 @@ class Hero(Piece):
             WATER,
             SPIKE,
         ])
-
-    def finish_move(self, direction):
-        terrain_type = self.world.get_terrain(self.pos)
-        if terrain_type == GOAL:
-            self.world.goal()
-            return True
-        return Entity.finish_move(self, direction)
 
     def create_shield(self):
         self.shield_pieces = []
@@ -60,3 +53,9 @@ class Hero(Piece):
             if not p.finish_move(direction):
                 return False
         return True
+
+    def terrain_trigger_test(self):
+        return self.current_terrain() == GOAL
+
+    def terrain_trigger_action(self):
+        self.world.goal()

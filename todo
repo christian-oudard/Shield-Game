@@ -1,5 +1,10 @@
 - level design
 
+refactoring:
+- terrain triggers, blocks, polyominos sinking
+- start_move finish_move, terrain_trigger_test terrain_trigger_action
+
+
 features:
 - effects
 	- color

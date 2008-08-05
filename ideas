@@ -229,10 +229,6 @@ x diagonal movement; 1
 - turrets, blocks, water 
 
 info todo:
-- Normally, you cannot cross water. However, if you push a block into water, it sinks and becomes a floor.
-.....~...
-.i.0.~.$.
-.....~...
 
 - shield 
 
