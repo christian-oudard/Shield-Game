@@ -34,7 +34,7 @@ class Display(object):
     def draw(self):
         board_x, board_y = self.world.board_size
         self.scr.erase()
-        self.draw_border(ORIGIN_Y - 1, ORIGIN_X - 1, board_y + 1, board_x + 1)
+        #self.draw_border(ORIGIN_Y - 1, ORIGIN_X - 1, board_y + 1, board_x + 1)
         self.show_info()
         self.scr.addstr(0, 0, str(self.world.num_moves))#DEBUG
         for pos, ter in self.world.terrain.items():

@@ -73,7 +73,7 @@ class World(object):
         self.terrain, self.board_size = parse_grid(terrain_string)
 
     def init_entities(self, entity_string):
-        entity_dict, _ = parse_grid(entity_string, ENTITY_BLANK)
+        entity_dict, _ = parse_grid(entity_string, ENTITY_CODES.keys())
         self.entities = set()
         poly_groups = {}
         for pos, code in entity_dict.items():
@@ -99,7 +99,7 @@ class World(object):
         entity.world = self
 
 
-def parse_grid(data_string, blanks=''):
+def parse_grid(data_string, valid_characters=None):
     lines = data_string.split('\n')
     try:
         while True: # remove blank lines
@@ -115,7 +115,7 @@ def parse_grid(data_string, blanks=''):
             if not character.isspace():
                 x_vals.append(x)
                 y_vals.append(y)
-                if character not in blanks:
+                if valid_characters is None or character in valid_characters:
                     init_data[(x,y)] = character
 
     # bounds correction

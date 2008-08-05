@@ -1,10 +1,5 @@
 - level design
 
-refactoring:
-- terrain triggers, blocks, polyominos sinking
-- start_move finish_move, terrain_trigger_test terrain_trigger_action
-
-
 features:
 - effects
 	- color
@@ -17,5 +12,4 @@ features:
 	- motion between states
 
 bugs:
-- hero can finish level if next to goal even if he can't legally move onto goal
 - bump display when opening shield is usually incomplete

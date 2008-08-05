@@ -209,26 +209,57 @@ sword. drod has already done it so well
 a way to kill enemies directly
 
 level progression:
-x movement; 1
-x diagonal movement; 1
-- blocks, pushing blocks out of the way; 2-3
-	- simple
-	- diagonal
-	- multiple
-- diagonal pushing; 3-4
-- water, pushing blocks into water; 5+
-- pushing with shield, water
-- pushing diagonally with shield
-- opening shield to push
-- opening shield diagonally to push
-- spikes, pushing block over spikes; 3
-- shield, blocks, water, spikes; 10+
- 
-- shield from turrets, diagonally too; 1
-- turrets, blocking turrets with blocks
-- turrets, blocks, water 
+-- water world: blocks and water
 
-info todo:
+	x movement
+	x diagonal movement
+	x blocks, pushing blocks out of the way
+	/ water, pushing blocks into water
+	- water puzzles
+	- get shield
+	- pushing with shield, water
+	- pushing diagonally with shield
+	- opening shield to push
+	- opening shield diagonally to push
+-- spike world: blocks, water, and spikes
+	- spikes, pushing multiple blocks over spikes
+	- pushing blocks over spikes with shield
 
-- shield 
+-- poly world
+	- polyominos
+not yet implemented level possibilities:
+-- turret world
+	- turrets, blocking turrets with blocks
+	- shield from turrets, diagonally too; 1
+-- switch world
+-- enemy?
+
+
+not so original theme:
+hero is in a cave. that's why every level is so cramped, and bounded with walls. he descends the staircase in each level to advance to the next. the blocks are boulders. 
+the boulder and water puzzles are the hero taking advantage of his environment to explore. spikes are metal traps put in by cave people 
+no polys in game, just use for hero
+
+spartan story telling. levels set up so that user must figure it out. intro levels minimal, only to teach controls. intro levels use clean, neat style, whereas the cave is set up haphazardly.
+
+what is the shield?
+- psychic force field
+
+visual style
+- 3/4 overhead, orthogonal
+- heavily abstract cartoon style thick lines, solid colors
+- scribbly, organic. few straight lines, inspiration from yoshi's island
+
+
+who is giving the player tips?
+
+provide some sort of mechanism to allow for skipping hard levels and coming back to them
+- make exit a door, not a floor item. make exit door like a wall, then bump into it to exit.
+- provide a back staircase, and start hero one or more squares away from it.
+- in-between levels with multiple choices. distinctive layout so player doesn't get lost.
+- lobby with several puzzle doors, must complete all to advance
+- don't make the player walk alot
+
+save game mechanism
+
 
