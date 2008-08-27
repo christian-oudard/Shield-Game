@@ -1,4 +1,8 @@
+todo:
 - level design
+
+housekeeping:
+- use dict.get where appropriate, instead of doing exception handling
 
 features:
 - effects

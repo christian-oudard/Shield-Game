@@ -42,6 +42,8 @@ def curses_main(stdscr):
             else:
                 try:
                     action, direction = command2
+                except ValueError:
+                    continue
                 except TypeError:
                     continue
                 world.update(('shield', direction))

@@ -102,6 +102,8 @@ turret
 - block turret with crates or shield or enemies
 - use turret to kill enemies
 
+terrain, usually impassable, but turns to floor when filled with blocks
+
 
 original ideas
 
@@ -164,14 +166,6 @@ shield:
    *
 
 
-
-dances:
-- a particular movement sequence does something
-- examples:
-	- move back, then forward, which shoots a fireball
-	- make a diamond around a square, and something appears
-
-
 general properties
 - self-contained puzzles
 - fully deterministic
@@ -214,7 +208,7 @@ level progression:
 	x movement
 	x diagonal movement
 	x blocks, pushing blocks out of the way
-	/ water, pushing blocks into water
+	x water, pushing blocks into water
 	- water puzzles
 	- get shield
 	- pushing with shield, water
@@ -238,7 +232,8 @@ not yet implemented level possibilities:
 not so original theme:
 hero is in a cave. that's why every level is so cramped, and bounded with walls. he descends the staircase in each level to advance to the next. the blocks are boulders. 
 the boulder and water puzzles are the hero taking advantage of his environment to explore. spikes are metal traps put in by cave people 
-no polys in game, just use for hero
+can't think of a good justification for polyominos
+
 
 spartan story telling. levels set up so that user must figure it out. intro levels minimal, only to teach controls. intro levels use clean, neat style, whereas the cave is set up haphazardly.
 
