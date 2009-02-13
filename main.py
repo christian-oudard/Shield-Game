@@ -2,6 +2,7 @@
 
 import curses
 import time
+import os
 import sys
 
 import log
@@ -9,17 +10,18 @@ import vec
 
 from world import World
 from keys import get_command
-from display import Display
+from display import GameDisplay
 
 def curses_main(stdscr):
-    display = init(stdscr)
+    log.init('curses_game_log')
+    display = GameDisplay(stdscr)
     world = load_level(sys.argv[1])
-    display.world = world
     if world is None:
         return
+    display.world = world
     world.display = display
     while True:
-        display.draw()
+        display.refresh()
         command = get_command(stdscr)
         if command is None:
             continue
@@ -50,18 +52,13 @@ def curses_main(stdscr):
         else:
             world.update(command)
         if world.level_completed:
-            display.draw()
+            display.refresh()
             display.show_message('Level Completed in %i moves' % world.num_moves)
             stdscr.refresh()
             time.sleep(1)
             #STUB, load next level
             break
 
-def init(stdscr):
-    log.init('curses_game_log')
-    return Display(stdscr)
-
-import os
 def load_level(filename):
     try:
         f = open(filename)

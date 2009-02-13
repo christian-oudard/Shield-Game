@@ -1,53 +1,27 @@
 import time
-import curses
-from curses import *
-
-import log
-import vec
-
+from cge.display import Display 
 from terrain_constants import FLOOR
 
-ORIGIN_X, ORIGIN_Y = ORIGIN = (3, 2)
+class GameDisplay(Display):
+    def __init__(self, *args, **kwargs):
+        super(GameDisplay, self).__init__(*args, **kwargs)
+        self.set_origin(3, 2)
 
-class Display(object):
-    def __init__(self, scr):
-        self.scr = scr
-        curses.curs_set(0)
-        scr.refresh() # refresh right away so first call to stdscr.getch() doesn't overwrite the first draw()
-
-    def show_bump(self):
-        self.draw()
-        time.sleep(.2)
-
-    def show_message(self, message):
-        board_x, board_y = self.world.board_size
-        self.scr.addstr(ORIGIN_Y + board_y + 2, 0, message)
-
-    def show_info(self):
-        try:
-            pos = self.world.hero.pos
-            info = self.world.info_spaces[pos]
-            self.show_message(info)
-        except KeyError:
-            pass
-    
     def draw(self):
         board_x, board_y = self.world.board_size
-        self.scr.erase()
-        #self.draw_border(ORIGIN_Y - 1, ORIGIN_X - 1, board_y + 1, board_x + 1)
+        self.draw_border(self.origin_y - 1, self.origin_x - 1, board_y + 1, board_x + 1)
         self.show_info()
         self.scr.addstr(0, 0, str(self.world.num_moves))#DEBUG
         for pos, ter in self.world.terrain.items():
             if ter == FLOOR:
                 ter = ' '
-            x, y = to_screen(pos)
+            x, y = self.to_screen(pos)
             self.scr.addch(y, x, ter)
         for e in self.world.entities:
             if not e.solid:
                 continue
-            x, y = to_screen(e.pos)
+            x, y = self.to_screen(e.pos)
             self.scr.addch(y, x, e.display_character)
-        self.scr.refresh()
 
     def draw_border(self, top, left, height, width):
         bottom = top + height
@@ -65,5 +39,18 @@ class Display(object):
         self.scr.vline(top + 1, left, '#', height - 1)
         self.scr.vline(top + 1, right, '#', height - 1)
 
-def to_screen(pos):
-    return vec.add(pos, ORIGIN)
+    def show_bump(self):
+        self.refresh()
+        time.sleep(.2)
+
+    def show_message(self, message):
+        board_x, board_y = self.world.board_size
+        self.scr.addstr(self.origin_y + board_y + 2, 0, message)
+
+    def show_info(self):
+        try:
+            pos = self.world.hero.pos
+            info = self.world.info_spaces[pos]
+            self.show_message(info)
+        except KeyError:
+            pass
