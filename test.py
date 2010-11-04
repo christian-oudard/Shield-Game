@@ -94,12 +94,12 @@ def test_move_command():
 def test_shield_bump():
     world = load_level(dedent(
         '''
-        ...
-        ...
-        ...
-        ___
-        _@_
-        ___
+        ....
+        ...#
+        ....
+        ____
+        _@__
+        ____
         '''))
     world.display = MockDisplay()
 
@@ -117,11 +117,21 @@ def test_shield_bump():
     assert_equal(world.hero.pos, (1, 1))
 
     # After opening the shield right, he can move left, but not right.
-    world.update(('shield', (1, 0)))
+    world.update(('shield', east))
 
     world.update(('move', west))
     assert_equal(world.hero.pos, (0, 1))
     world.update(('move', east))
 
     world.update(('move', east))
-    assert_equal(world.hero.pos, (1, 1)) # Blocked
+    assert_equal(world.hero.pos, (1, 1)) # Blocked on wall tile.
+
+    # After opening the shield left, he can move right, but not left.
+    world.update(('shield', west))
+
+    world.update(('move', east))
+    assert_equal(world.hero.pos, (2, 1))
+    world.update(('move', west))
+
+    world.update(('move', west))
+    assert_equal(world.hero.pos, (1, 1)) # Blocked on level edge.
