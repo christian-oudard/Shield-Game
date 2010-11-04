@@ -78,15 +78,15 @@ def load_level(level_string):
     except ValueError:
         log.write('invalid level-size line: %r' % size_line)
         return None
-    terrain_lines = ''.join(lines.pop(0) for i in range(height))
-    entity_lines = ''.join(lines.pop(0) for i in range(height))
+    terrain_lines = '\n'.join(lines.pop(0) for i in range(height))
+    entity_lines = '\n'.join(lines.pop(0) for i in range(height))
     world = World(terrain_lines, entity_lines)
-    tags = ''.join(lines) # remainder of file is tag lines
+    tags = '\n'.join(lines) # remainder of file is tag lines
     tags_list = tags.split('#')
     for tag in tags_list:
         if tag.strip() == '':
             continue
-        tag_lines = tag.split('\n')
+        tag_lines = tag.strip().split('\n')
         header_line = tag_lines.pop(0).strip()
         tag_type, arguments = header_line.split(' ', 1)
         if tag_type == 'i':
