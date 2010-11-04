@@ -52,7 +52,7 @@ class World(object):
     def rollback(self):
         self.display.show_bump()
         self.undo()
-    
+
     def restart(self):
         self.history = [self.history[0]]
         self.undo()
@@ -82,7 +82,7 @@ class World(object):
             e.pos = pos
             e.display_character = code
             self.register_entity(e)
-            if Class is Hero: 
+            if Class is Hero:
                 self.hero = e
             elif isinstance(e, Piece):
                 try:
@@ -93,7 +93,7 @@ class World(object):
             Polyomino(pieces)
         self.hero.create_shield()
         self.entities = tuple(self.entities)
-                                    
+
     def register_entity(self, entity):
         self.entities.add(entity)
         entity.world = self
