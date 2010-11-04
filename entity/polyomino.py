@@ -28,7 +28,7 @@ class Piece(Entity):
 
     def terrain_trigger(self):
         return self.parent.terrain_trigger()
-    
+
     def terrain_trigger_test(self):
         return True # overriden in subclasses
 
@@ -40,7 +40,7 @@ from terrain_constants import WATER, FLOOR
 class BlockPiece(Piece):
     def terrain_trigger_test(self):
         return self.current_terrain() == WATER
-    
+
     def terrain_trigger_action(self):
         self.world.terrain[self.pos] = FLOOR
         self.solid = False

@@ -1,5 +1,5 @@
 import time
-from cge.display import Display 
+from cge.display import Display
 from terrain_constants import FLOOR
 
 class GameDisplay(Display):
