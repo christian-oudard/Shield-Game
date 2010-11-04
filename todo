@@ -3,7 +3,7 @@ todo:
 
 to test:
 - using the shield
-	- try to open up the shield when you're  blocked
+	2 - try to open up the shield when you're  blocked
 - pushing a block
 - pushing several blocks in a line
 - pushing a block with the shield
@@ -12,6 +12,9 @@ to test:
     - have a solution code like (mne, mw, ssw, me)
 
 housekeeping:
+1 - split collide_entity into a function on world, get_entity(pos)
+	- unittest first
+	- use the get_entity function to test the sheild open unittest
 - use dict.get where appropriate, instead of doing exception handling
 - use real python logging, not crappy custom log
 - python 3? 2to3? 3to2?
