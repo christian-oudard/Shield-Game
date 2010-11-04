@@ -20,10 +20,10 @@ class World(object):
 
     def update(self, command):
         self.checkpoint()
-        type, direction = command
-        if type == 'move':
+        cmd_type, direction = command
+        if cmd_type == 'move':
             result = self.hero.move(direction)
-        elif type == 'shield':
+        elif cmd_type == 'shield':
             result = self.hero.shield(direction)
         if not result:
             self.rollback()

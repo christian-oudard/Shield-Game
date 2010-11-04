@@ -3,15 +3,26 @@ todo:
 
 to test:
 - info squares in level loading
+- using the shield
+	- try to walk into a wall while holding your shield out
+	- try to open up the shield when you're  blocked
+- pushing a block
+- pushing several blocks in a line
+- pushing a block with the shield
 - undo features
 
 housekeeping:
-- rename variable "type" to "cmd_type" in world.py
+- better level loading format, get rid of indices
 - use dict.get where appropriate, instead of doing exception handling
 - use real python logging, not crappy custom log
 - python 3? 2to3? 3to2?
 
 features:
+- gameplay
+	- blocks that don't push in a line, they are too heavy
+	- blocks that slide all the way away from you til they hit something
+		- maybe they carom and transfer momentum when they hit another block?
+		- do they slide together in groups?
 - effects
 	- color
 	- show when a dead-key command is pending
@@ -21,6 +32,9 @@ features:
 	- polyomino effects
 	- rounded corners for walls, to show that you may move through diagonally tight spaces
 	- motion between states
+
+style:
+- make it an umbrella
 
 bugs:
 - fix n**2 behavior in polyominos (1 move -> 9 trigger test -> 81 trigger action)
