@@ -6,9 +6,26 @@ import os
 from textwrap import dedent
 
 from main import load_level
+from move_shortcuts import (
+    northwest,
+    west,
+    southwest,
+    north,
+    center,
+    south,
+    northeast,
+    east,
+    southeast,
+)
 
 import log
 log.write = print
+
+
+class MockDisplay(object):
+    def show_bump(self):
+        pass
+
 
 def test_load_level():
     world = load_level(dedent(
@@ -78,7 +95,43 @@ def test_move_command():
         @__
         '''))
     assert_equal(world.hero.pos, (0, 0))
-    world.update(('move', (1, 0)))
+    world.update(('move', east))
     assert_equal(world.hero.pos, (1, 0))
-    world.update(('move', (1, 0)))
+    world.update(('move', east))
     assert_equal(world.hero.pos, (2, 0))
+    assert_equal(world.level_completed, True)
+
+def test_shield_bump():
+    world = load_level(dedent(
+        '''
+        ...
+        ...
+        ...
+        ___
+        _@_
+        ___
+        '''))
+    world.display = MockDisplay()
+
+    assert_equal(world.hero.pos, (1, 1))
+
+    # Before opening the shield, he can move left and right.
+    world.update(('move', west))
+    assert_equal(world.hero.pos, (0, 1))
+    world.update(('move', east))
+
+    world.update(('move', east))
+    assert_equal(world.hero.pos, (2, 1))
+    world.update(('move', west))
+
+    assert_equal(world.hero.pos, (1, 1))
+
+    # After opening the shield right, he can move left, but not right.
+    world.update(('shield', (1, 0)))
+
+    world.update(('move', west))
+    assert_equal(world.hero.pos, (0, 1))
+    world.update(('move', east))
+
+    world.update(('move', east))
+    assert_equal(world.hero.pos, (1, 1)) # Blocked
