@@ -76,8 +76,7 @@ def load_level(level_string):
         width = int(width)
         height = int(height)
     except ValueError:
-        log.write('invalid level-size line: %r' % size_line)
-        return None
+        raise AssertionError('invalid level-size line: %r' % size_line)
     terrain_lines = '\n'.join(lines.pop(0) for i in range(height))
     entity_lines = '\n'.join(lines.pop(0) for i in range(height))
     world = World(terrain_lines, entity_lines)
@@ -93,8 +92,13 @@ def load_level(level_string):
         if tag_type == 'i':
             x, y = [int(a.strip()) for a in arguments.split(',', 1)]
             pos = (x, y)
-            assert(world.terrain[pos] == 'i')
+            assert(world.terrain[pos] == 'i'), 'no "i" square at position %s' % pos
             world.info_spaces[pos] = '\n'.join(tag_lines)
+    # Make sure every "i" square has a tag.
+    for pos, terrain in world.terrain.items():
+        if terrain == 'i':
+            assert pos in world.info_spaces, 'un-matched "i" square'
+
     return world
 
 if __name__ == '__main__':

@@ -9,12 +9,11 @@ to test:
 - pushing several blocks in a line
 - pushing a block with the shield
 - undo features
-- test that all the levels in the game load
 - test that all the levels in the game can be solved
     - have a solution code like (mne, mw, ssw, me)
 
 housekeeping:
-- better level loading format, get rid of indices
+- better level loading format, get rid of sizes
 - use dict.get where appropriate, instead of doing exception handling
 - use real python logging, not crappy custom log
 - python 3? 2to3? 3to2?
