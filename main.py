@@ -15,7 +15,16 @@ from display import GameDisplay
 def curses_main(stdscr):
     log.init('curses_game_log')
     display = GameDisplay(stdscr)
-    world = load_level(sys.argv[1])
+    try:
+        with open(sys.argv[1]) as level_file:
+            level_string = level_file.read()
+    except IndexError:
+        log.write('must specify level file as an argument')
+        return
+    except IOError:
+        log.write('level file "%s" not found' % sys.argv[1])
+        return
+    world = load_level(level_string)
     if world is None:
         return
     display.world = world
@@ -59,13 +68,9 @@ def curses_main(stdscr):
             #STUB, load next level
             break
 
-def load_level(filename):
-    try:
-        f = open(filename)
-    except IOError:
-        log.write('level file "%s" not found' % filename)
-        return None
-    size_line = f.readline()
+def load_level(level_string):
+    lines = level_string.strip().split('\n')
+    size_line = lines.pop(0)
     try:
         width, height = size_line.strip().split(',')
         width = int(width)
@@ -73,10 +78,10 @@ def load_level(filename):
     except ValueError:
         log.write('invalid level-size line: %r' % size_line)
         return None
-    terrain_lines = ''.join(f.readline() for i in range(height))
-    entity_lines = ''.join(f.readline() for i in range(height))
+    terrain_lines = ''.join(lines.pop(0) for i in range(height))
+    entity_lines = ''.join(lines.pop(0) for i in range(height))
     world = World(terrain_lines, entity_lines)
-    tags = f.read() # remainder of file is tag lines
+    tags = ''.join(lines) # remainder of file is tag lines
     tags_list = tags.split('#')
     for tag in tags_list:
         if tag.strip() == '':
