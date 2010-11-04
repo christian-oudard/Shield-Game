@@ -47,10 +47,10 @@ def test_load_level_info():
         ___
         ___
 
-        #i 1, 1
+        !i 1, 1
         note one
 
-        #i 2, 2
+        !i 2, 2
         note two
         '''))
     assert_equal(world.board_size, (3, 3))

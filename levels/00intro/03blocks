@@ -13,11 +13,11 @@
 #...#...###...#.#..0###.###...#
 ######### #######...# ### #####
                 #####
-#i 6, 3
+!i 6, 3
 This is a block. You can push it any
 direction, even diagonally. Move the
 blocks out of the way to pass.
 
-#i 18, 3
+!i 18, 3
 You can push multiple blocks at the
 same time.

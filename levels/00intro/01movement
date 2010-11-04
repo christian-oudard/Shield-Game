@@ -17,7 +17,7 @@
 #########.#####.#####
         #.......#
         #########
-#i 2, 4
+!i 2, 4
 Welcome!
 To move around, use the numpad.
 
@@ -29,12 +29,12 @@ To move around, use the numpad.
 
 Go east to continue.
 
-#i 6, 4
+!i 6, 4
 The spaces marked with the "i" symbol
 give you information. Try moving through
 the maze to get to the next information
 marker.
 
-#i 12, 4
+!i 12, 4
 To win the level, get to the space
 marked "$".

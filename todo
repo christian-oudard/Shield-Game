@@ -2,7 +2,6 @@ todo:
 - level design
 
 to test:
-- info squares in level loading
 - using the shield
 	- try to walk into a wall while holding your shield out
 	- try to open up the shield when you're  blocked
@@ -10,6 +9,9 @@ to test:
 - pushing several blocks in a line
 - pushing a block with the shield
 - undo features
+- test that all the levels in the game load
+- test that all the levels in the game can be solved
+    - have a solution code like (mne, mw, ssw, me)
 
 housekeeping:
 - better level loading format, get rid of indices

@@ -14,7 +14,7 @@
 #################...#########
                 #####
 
-#i 6, 3
+!i 6, 3
 The spaces marked '~' are water.
 Normally, you cannot cross water, but
 if you push a block into water, it sinks

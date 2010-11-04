@@ -82,11 +82,12 @@ def load_level(level_string):
     entity_lines = '\n'.join(lines.pop(0) for i in range(height))
     world = World(terrain_lines, entity_lines)
     tags = '\n'.join(lines) # remainder of file is tag lines
-    tags_list = tags.split('#')
+    tags_list = tags.split('!')
     for tag in tags_list:
-        if tag.strip() == '':
+        tag = tag.strip()
+        if tag == '':
             continue
-        tag_lines = tag.strip().split('\n')
+        tag_lines = tag.split('\n')
         header_line = tag_lines.pop(0).strip()
         tag_type, arguments = header_line.split(' ', 1)
         if tag_type == 'i':
