@@ -1,9 +1,18 @@
-from nose.tools import assert_equal
+from __future__ import print_function
+
+from nose.tools import with_setup, assert_equal
 
 from textwrap import dedent
 
 from main import load_level
 
+def setup():
+    global log
+    import log as _log
+    _log.write = print
+    log = _log
+
+@with_setup(setup)
 def test_load_level():
     world = load_level(dedent(
         '''
@@ -23,3 +32,17 @@ def test_load_level():
     assert_equal(hero.pos, (0, 0))
     assert_equal(len(hero.shield_pieces), 8)
     assert hero in world.entities
+
+@with_setup(setup)
+def test_move_command():
+    world = load_level(dedent(
+        '''
+        3, 1
+        ..$
+        @__
+        '''))
+    assert_equal(world.hero.pos, (0, 0))
+    world.update(('move', (1, 0)))
+    assert_equal(world.hero.pos, (1, 0))
+    world.update(('move', (1, 0)))
+    assert_equal(world.hero.pos, (2, 0))
