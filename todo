@@ -13,7 +13,6 @@ to test:
     - have a solution code like (mne, mw, ssw, me)
 
 housekeeping:
-- better level loading format, get rid of sizes
 - use dict.get where appropriate, instead of doing exception handling
 - use real python logging, not crappy custom log
 - python 3? 2to3? 3to2?

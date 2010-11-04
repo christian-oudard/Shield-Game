@@ -69,19 +69,31 @@ def curses_main(stdscr):
             break
 
 def load_level(level_string):
+    # Determine where the tags start, if they exist.
+    if '!' in level_string:
+        i = level_string.index('!')
+        tag_string = level_string[i:]
+        level_string = level_string[:i]
+    else:
+        tag_string = ''
+
+    # Determine the height and width of the level. Half the lines are the
+    # terrain map, and half are the entity map.
     lines = level_string.strip().split('\n')
-    size_line = lines.pop(0)
-    try:
-        width, height = size_line.strip().split(',')
-        width = int(width)
-        height = int(height)
-    except ValueError:
-        raise AssertionError('invalid level-size line: %r' % size_line)
-    terrain_lines = '\n'.join(lines.pop(0) for i in range(height))
-    entity_lines = '\n'.join(lines.pop(0) for i in range(height))
-    world = World(terrain_lines, entity_lines)
-    tags = '\n'.join(lines) # remainder of file is tag lines
-    tags_list = tags.split('!')
+    width = max(len(line) for line in lines)
+    height = len(lines) // 2
+    assert height * 2 == len(lines), 'Must have an equal size terrain map and entity map.'
+
+    terrain_lines = lines[:height]
+    del lines[:height]
+    entity_lines = lines[:height]
+    del lines[:height]
+
+    # Construct the world.
+    world = World('\n'.join(terrain_lines), '\n'.join(entity_lines))
+
+    # Parse the tags.
+    tags_list = tag_string.split('!')
     for tag in tags_list:
         tag = tag.strip()
         if tag == '':

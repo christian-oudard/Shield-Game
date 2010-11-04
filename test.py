@@ -13,7 +13,6 @@ log.write = print
 def test_load_level():
     world = load_level(dedent(
         '''
-        2, 2
         .$
         #.
         @_
@@ -35,7 +34,6 @@ def test_load_level():
 def test_load_level_info():
     world = load_level(dedent(
         '''
-        3, 3
         ..$
         .i.
         #.i
@@ -76,7 +74,6 @@ def test_load_all_game_levels():
 def test_move_command():
     world = load_level(dedent(
         '''
-        3, 1
         ..$
         @__
         '''))
