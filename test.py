@@ -6,17 +6,7 @@ import os
 from textwrap import dedent
 
 from main import load_level
-from move_shortcuts import (
-    northwest,
-    west,
-    southwest,
-    north,
-    center,
-    south,
-    northeast,
-    east,
-    southeast,
-)
+from move_shortcuts import *
 
 import log
 log.write = print

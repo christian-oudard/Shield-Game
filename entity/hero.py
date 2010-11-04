@@ -3,16 +3,17 @@ import vec
 
 from polyomino import Polyomino, Piece
 from terrain_constants import WATER, SPIKE, GOAL
+from move_shortcuts import *
 
 DIRECTIONS = {
-    0: (0, -1),
-    1: (1, -1),
-    2: (1, 0),
-    3: (1, 1),
-    4: (0, 1),
-    5: (-1, 1),
-    6: (-1, 0),
-    7: (-1, -1),
+    0: north,
+    1: northeast,
+    2: east,
+    3: southeast,
+    4: south,
+    5: southwest,
+    6: west,
+    7: northwest,
 }
 R_DIRECTIONS = dict([(value, key) for key, value in DIRECTIONS.items()])
 
