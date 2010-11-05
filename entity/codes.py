@@ -1,6 +1,6 @@
-from entity.hero import Hero
-from entity.block import Block
-from entity.polyomino import BlockPiece
+from hero import Hero
+from block import Block
+from polyomino import BlockPiece
 
 ENTITY_CODES = {
     '@': Hero,

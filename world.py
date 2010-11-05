@@ -2,12 +2,10 @@ from copy import copy
 
 import log
 
-from entity_codes import ENTITY_CODES
+from entity.codes import ENTITY_CODES
 from entity.entity import Entity
 from entity.hero import Hero
 from entity.polyomino import Polyomino, Piece
-
-ENTITY_BLANK = '_'
 
 class World(object):
     def __init__(self, terrain_string, entity_string):
