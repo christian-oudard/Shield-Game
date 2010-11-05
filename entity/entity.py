@@ -23,12 +23,22 @@ class Entity(object):
             return False
         e = self.collided_entity()
         if e:
-            return e.move(direction)
+            return self.entity_trigger(e, direction)
         return True
 
-    def collide_terrain(self):
-        terrain_type = self.world.terrain.get(self.pos)
-        return terrain_type in self.illegal_terrain
+    def trigger_move(self, entity, direction):
+        """
+        This specifies what you do when you are bumped by another entity.
+        """
+        # When you are triggered to move in a direction, do so.
+        # Subclasses can override this.
+        return self.move(direction)
+
+    def entity_trigger(self, entity, direction):
+        """
+        This specifies what action you take when you bump another entity.
+        """
+        return entity.trigger_move(self, direction)
 
     def collided_entity(self):
         if not self.solid:
@@ -42,6 +52,10 @@ class Entity(object):
     def current_terrain(self):
         return self.world.terrain.get(self.pos)
 
+    def collide_terrain(self):
+        terrain_type = self.world.terrain.get(self.pos)
+        return terrain_type in self.illegal_terrain
+
     def terrain_trigger(self):
-        pass # overriden in subclasses
+        pass # Overriden in subclasses.
 

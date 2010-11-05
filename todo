@@ -13,6 +13,7 @@ to test:
 	- requires good tests on undo features first
 
 housekeeping:
+- rename entity_trigger to bump_entity
 - use real python logging, not crappy custom log
 - python 3? 2to3? 3to2?
 
@@ -36,6 +37,7 @@ style:
 - make it an umbrella
 
 bugs:
+1- fail loudly when an unrecognized entity is in the level
 - fix n**2 behavior in polyominos (1 move -> 9 trigger test -> 81 trigger action)
 - bump display when opening shield is usually incomplete
 - display not showing borders correctly?

@@ -8,6 +8,7 @@ from textwrap import dedent
 from main import load_level
 from move_shortcuts import *
 from entity.polyomino import Piece
+from entity.block import Block, HeavyBlock
 
 import log
 log.write = print
@@ -20,6 +21,20 @@ def make_world(level_data):
     world = load_level(dedent(level_data))
     world.display = MockDisplay()
     return world
+
+def show_world(world):
+    height = max(y for x, y in world.terrain.keys()) + 1
+    width = max(x for x, y in world.terrain.keys()) + 1
+    for y in range(height):
+        for x in range(width):
+            c = ' '
+            pos = (x, y)
+            c = world.terrain.get(pos, c)
+            entity = world.entity_at(pos)
+            if entity:
+                c = entity.display_character
+            print(c, end='')
+        print()
 
 def test_load_level():
     world = make_world(
@@ -214,3 +229,75 @@ def test_block_push():
     assert_equal(world.entity_at((1, 0)), world.hero)
     assert_equal(block.pos, (2, 0))
     assert_equal(world.entity_at((2, 0)), block)
+
+def test_heavy_block_push():
+    world = make_world(
+        '''
+        ....
+        ....
+        ....
+        ....
+        ....
+        ....
+        @O__
+        _H__
+        _OO_
+        _HH_
+        _HO_
+        _OH_
+        ''')
+
+    # Push a single light block.
+    assert_equal(world.hero.pos, (0, 0))
+
+    world.update(('move', east))
+    assert_equal(world.hero.pos, (1, 0))
+    block = world.entity_at((2, 0))
+    assert isinstance(block, Block)
+
+    # Push a single heavy block.
+    world.update(('move', west))
+    world.update(('move', south))
+    assert_equal(world.hero.pos, (0, 1))
+
+    world.update(('move', east))
+    assert_equal(world.hero.pos, (1, 1))
+    block = world.entity_at((2, 1))
+    assert isinstance(block, HeavyBlock)
+
+    # Push two light blocks.
+    world.update(('move', west))
+    world.update(('move', south))
+    assert_equal(world.hero.pos, (0, 2))
+
+    world.update(('move', east))
+    assert_equal(world.hero.pos, (1, 2))
+    block = world.entity_at((3, 2))
+    assert isinstance(block, Block)
+
+    # Can't push two heavy blocks.
+    world.update(('move', west))
+    world.update(('move', south))
+    assert_equal(world.hero.pos, (0, 3))
+
+    world.update(('move', east))
+    assert_equal(world.hero.pos, (0, 3))
+    assert_equal(world.entity_at((3, 3)), None)
+
+    # Can't push a heavy block and a light block.
+    world.update(('move', west))
+    world.update(('move', south))
+    assert_equal(world.hero.pos, (0, 4))
+
+    world.update(('move', east))
+    assert_equal(world.hero.pos, (0, 4))
+    assert_equal(world.entity_at((3, 4)), None)
+
+    world.update(('move', west))
+    world.update(('move', south))
+    assert_equal(world.hero.pos, (0, 5))
+
+    world.update(('move', east))
+    show_world(world)
+    assert_equal(world.hero.pos, (0, 5))
+    assert_equal(world.entity_at((3, 5)), None)
