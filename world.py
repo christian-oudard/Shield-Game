@@ -93,7 +93,10 @@ class World(object):
             if e.pos == pos and e.solid
         ]
         assert len(entities) <= 1
-        return entities[0]
+        if entities:
+            return entities[0]
+        else:
+            return None
 
 
 def parse_grid(data_string, valid_characters=None):

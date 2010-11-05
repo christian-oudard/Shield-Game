@@ -21,7 +21,7 @@ class Entity(object):
     def finish_move(self, direction):
         if self.solid and self.collide_terrain():
             return False
-        e = self.collide_entity()
+        e = self.collided_entity()
         if e:
             return e.move(direction)
         return True
@@ -30,14 +30,14 @@ class Entity(object):
         terrain_type = self.world.terrain.get(self.pos)
         return terrain_type in self.illegal_terrain
 
-    def collide_entity(self):
+    def collided_entity(self):
         if not self.solid:
             return None
-        for b in self.world.entities:
-            if b is self or not b.solid:
-                continue
-            if self.pos == b.pos:
-                return b
+        # Temporarily turn off solidity to check what other solid entities might be here.
+        self.solid = False
+        other = self.world.entity_at(self.pos)
+        self.solid = True
+        return other
 
     def current_terrain(self):
         return self.world.terrain.get(self.pos)
