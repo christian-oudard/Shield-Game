@@ -163,6 +163,30 @@ def test_close_shield():
     world.update(('shield', center))
     assert_equal(world.entity_at((1, 0)), None)
 
+def test_open_shield_bump():
+    world = make_world(
+        '''
+        ..
+        ..
+        .#
+        @_
+        __
+        __
+        ''')
+
+    # Open the shield, it is blocked by the edge of the level.
+    assert_equal(world.hero.pos, (0, 0))
+    world.update(('shield', east))
+    assert_equal(world.entity_at((1, 0)), None)
+
+    # Move down.
+    world.update(('move', south))
+    assert_equal(world.hero.pos, (0, 1))
+
+    # Open the shield, it is blocked by terrain.
+    world.update(('shield', east))
+    assert_equal(world.entity_at((1, 1)), None)
+
 def test_block_push():
     world = make_world(
         '''
