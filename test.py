@@ -11,20 +11,23 @@ from move_shortcuts import *
 import log
 log.write = print
 
-
 class MockDisplay(object):
     def show_bump(self):
         pass
 
+def make_world(level_data):
+    world = load_level(dedent(level_data))
+    world.display = MockDisplay()
+    return world
 
 def test_load_level():
-    world = load_level(dedent(
+    world = make_world(
         '''
         .$
         #.
         @_
         __
-        '''))
+        ''')
     assert_equal(world.level_completed, False)
     assert_equal(world.num_moves, 0)
     assert_equal(world.history, [])
@@ -39,7 +42,7 @@ def test_load_level():
     assert hero in world.entities
 
 def test_load_level_info():
-    world = load_level(dedent(
+    world = make_world(
         '''
         ..$
         .i.
@@ -53,7 +56,7 @@ def test_load_level_info():
 
         !i 2, 2
         note two
-        '''))
+        ''')
     assert_equal(world.board_size, (3, 3))
     assert_equal(world.terrain[(1, 1)], 'i')
     assert_equal(world.terrain[(2, 2)], 'i')
@@ -79,11 +82,11 @@ def test_load_all_game_levels():
         raise Exception('%d levels did not load' % fail_count)
 
 def test_move_command():
-    world = load_level(dedent(
+    world = make_world(
         '''
         ..$
         @__
-        '''))
+        ''')
     assert_equal(world.hero.pos, (0, 0))
     world.update(('move', east))
     assert_equal(world.hero.pos, (1, 0))
@@ -92,7 +95,7 @@ def test_move_command():
     assert_equal(world.level_completed, True)
 
 def test_shield_bump():
-    world = load_level(dedent(
+    world = make_world(
         '''
         ....
         ...#
@@ -100,8 +103,7 @@ def test_shield_bump():
         ____
         _@__
         ____
-        '''))
-    world.display = MockDisplay()
+        ''')
 
     assert_equal(world.hero.pos, (1, 1))
 
@@ -135,3 +137,31 @@ def test_shield_bump():
 
     world.update(('move', west))
     assert_equal(world.hero.pos, (1, 1)) # Blocked on level edge.
+
+def test_block_push():
+    world = make_world(
+        '''
+        ...
+        @0_
+        ''')
+
+    assert_equal(world.hero.pos, (0, 0))
+    assert_equal(world.entity_at((0, 0)), world.hero)
+    block = world.entity_at((1, 0))
+    assert_equal(block.pos, (1, 0))
+
+    # Push the block east.
+    world.update(('move', east))
+
+    assert_equal(world.hero.pos, (1, 0))
+    assert_equal(world.entity_at((1, 0)), world.hero)
+    assert_equal(block.pos, (2, 0))
+    assert_equal(world.entity_at((2, 0)), block)
+
+    # Try to push the block east, but it bumps the wall.
+    world.update(('move', east))
+
+    assert_equal(world.hero.pos, (1, 0))
+    assert_equal(world.entity_at((1, 0)), world.hero)
+    assert_equal(block.pos, (2, 0))
+    assert_equal(world.entity_at((2, 0)), block)

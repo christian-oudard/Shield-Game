@@ -87,6 +87,14 @@ class World(object):
         self.entities.add(entity)
         entity.world = self
 
+    def entity_at(self, pos):
+        entities = [
+            e for e in self.entities
+            if e.pos == pos and e.solid
+        ]
+        assert len(entities) <= 1
+        return entities[0]
+
 
 def parse_grid(data_string, valid_characters=None):
     lines = data_string.split('\n')
