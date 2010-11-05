@@ -27,7 +27,7 @@ class Entity(object):
         return True
 
     def collide_terrain(self):
-        terrain_type = self.world.get_terrain(self.pos)
+        terrain_type = self.world.terrain.get(self.pos)
         return terrain_type in self.illegal_terrain
 
     def collide_entity(self):
@@ -40,7 +40,7 @@ class Entity(object):
                 return b
 
     def current_terrain(self):
-        return self.world.get_terrain(self.pos)
+        return self.world.terrain.get(self.pos)
 
     def terrain_trigger(self):
         pass # overriden in subclasses

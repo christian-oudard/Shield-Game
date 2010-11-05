@@ -48,9 +48,6 @@ class GameDisplay(Display):
         self.scr.addstr(self.origin_y + board_y + 2, 0, message)
 
     def show_info(self):
-        try:
-            pos = self.world.hero.pos
-            info = self.world.info_spaces[pos]
+        info = self.world.info_spaces.get(self.world.hero.pos)
+        if info:
             self.show_message(info)
-        except KeyError:
-            pass

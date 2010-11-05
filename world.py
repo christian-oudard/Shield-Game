@@ -32,12 +32,6 @@ class World(object):
         log.write('level finished')
         self.level_completed = True
 
-    def get_terrain(self, pos):
-        try:
-            return self.terrain[pos]
-        except KeyError:
-            return None
-
     def checkpoint(self):
         history_item = {
             'moves' : self.num_moves,
@@ -80,13 +74,10 @@ class World(object):
             e.pos = pos
             e.display_character = code
             self.register_entity(e)
-            if Class is Hero:
+            if isinstance(e, Hero):
                 self.hero = e
             elif isinstance(e, Piece):
-                try:
-                    poly_groups[code].append(e)
-                except KeyError:
-                    poly_groups[code] = [e]
+                poly_groups.setdefault(code, []).append(e)
         for pieces in poly_groups.values():
             Polyomino(pieces)
         self.hero.create_shield()

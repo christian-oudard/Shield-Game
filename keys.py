@@ -56,7 +56,4 @@ for key, value in KEY_MAPPING.items():
 
 def get_command(stdscr):
     c = stdscr.getch()
-    try:
-        return KEY_MAPPING[c]
-    except KeyError:
-        return None
+    return KEY_MAPPING.get(c)

@@ -3,7 +3,17 @@ import vec
 
 from polyomino import Polyomino, Piece
 from terrain_constants import WATER, SPIKE, GOAL
-from move_shortcuts import *
+from move_shortcuts import (
+    northwest,
+    west,
+    southwest,
+    north,
+    center,
+    south,
+    northeast,
+    east,
+    southeast,
+)
 
 DIRECTIONS = {
     0: north,
@@ -42,10 +52,9 @@ class Hero(Piece):
         self.shield_position = direction
         for s in self.shield_pieces:
             s.solid = False
-        try:
-            middle = R_DIRECTIONS[direction]
-        except KeyError:
-            return True
+        if direction == center:
+            return True # Close the shield.
+        middle = R_DIRECTIONS[direction]
         left = (middle - 1) % 8
         right = (middle + 1) % 8
         for d in (left, middle, right):
