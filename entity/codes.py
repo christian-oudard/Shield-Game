@@ -4,7 +4,7 @@ from polyomino import BlockPiece
 
 ENTITY_CODES = {
     '@': Hero,
-    '0': Block,
+    'O': Block,
     'A': BlockPiece,
     'B': BlockPiece,
     'C': BlockPiece,

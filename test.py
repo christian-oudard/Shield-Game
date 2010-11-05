@@ -191,7 +191,7 @@ def test_block_push():
     world = make_world(
         '''
         ...
-        @0_
+        @O_
         ''')
 
     assert_equal(world.hero.pos, (0, 0))

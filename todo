@@ -1,12 +1,16 @@
-todo:
-- level design
+levels:
+- combine the orthogonal and diagonal movement levels
 
 to test:
 - pushing several blocks in a line
 - pushing a block with the shield
+- polyomino blocks
+- pushing blocks into water
+- pushing polyomino blocks into water
 - undo features
 - test that all the levels in the game can be solved
     - have a solution code like (mne, mw, ssw, me)
+	- requires good tests on undo features first
 
 housekeeping:
 - use real python logging, not crappy custom log
