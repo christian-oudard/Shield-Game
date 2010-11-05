@@ -7,6 +7,7 @@ from textwrap import dedent
 
 from main import load_level
 from move_shortcuts import *
+from entity.polyomino import Piece
 
 import log
 log.write = print
@@ -137,6 +138,30 @@ def test_shield_bump():
 
     world.update(('move', west))
     assert_equal(world.hero.pos, (1, 1)) # Blocked on level edge.
+
+def test_close_shield():
+    world = make_world(
+        '''
+        ...
+        ...
+        ...
+        ___
+        _@_
+        ___
+        ''')
+
+    # Nothing in the north square to start.
+    assert_equal(world.entity_at((1, 0)), None)
+
+    # Open the shield, the shield occupies the north square.
+    world.update(('shield', north))
+    piece = world.entity_at((1, 0))
+    assert isinstance(piece, Piece)
+    assert_equal(piece.polyomino, world.hero.polyomino)
+
+    # Close the shield, the shield no longer occupies the north square.
+    world.update(('shield', center))
+    assert_equal(world.entity_at((1, 0)), None)
 
 def test_block_push():
     world = make_world(

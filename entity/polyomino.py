@@ -4,7 +4,7 @@ class Polyomino(object):
     def __init__(self, pieces):
         self.pieces = pieces
         for p in self.pieces:
-            p.parent = self
+            p.polyomino = self
 
     def move_poly(self, direction):
         for p in self.pieces:
@@ -24,10 +24,10 @@ class Polyomino(object):
 
 class Piece(Entity):
     def move(self, direction):
-        return self.parent.move_poly(direction)
+        return self.polyomino.move_poly(direction)
 
     def terrain_trigger(self):
-        return self.parent.terrain_trigger()
+        return self.polyomino.terrain_trigger()
 
     def terrain_trigger_test(self):
         return True # overriden in subclasses
