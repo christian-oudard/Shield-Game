@@ -23,9 +23,11 @@ def make_world(level_data):
     return world
 
 def show_world(world):
+    lines = []
     height = max(y for x, y in world.terrain.keys()) + 1
     width = max(x for x, y in world.terrain.keys()) + 1
     for y in range(height):
+        line = []
         for x in range(width):
             c = ' '
             pos = (x, y)
@@ -33,8 +35,9 @@ def show_world(world):
             entity = world.entity_at(pos)
             if entity:
                 c = entity.display_character
-            print(c, end='')
-        print()
+            line.append(c)
+        lines.append(''.join(line))
+    return '\n'.join(lines)
 
 def test_load_level():
     world = make_world(
@@ -77,6 +80,30 @@ def test_load_level_info():
     assert_equal(world.terrain[(1, 1)], 'i')
     assert_equal(world.terrain[(2, 2)], 'i')
     assert_equal(world.info_spaces, {(1, 1): 'note one', (2, 2): 'note two'})
+
+def test_load_level_whitespace():
+    # Respect leading whitespace in game levels.
+    # Ignore terrain in the entity layer.
+    world = make_world(
+        '''
+         ####
+        ##..#
+        #..##
+        ####
+         ####
+        ##..#
+        #@.##
+        ####
+        ''')
+    assert_equal(
+        show_world(world),
+        dedent(
+            '''\
+             ####
+            ##..#
+            #@.##
+            #### ''')
+    )
 
 def test_load_all_game_levels():
     fail_count = 0
@@ -298,6 +325,5 @@ def test_heavy_block_push():
     assert_equal(world.hero.pos, (0, 5))
 
     world.update(('move', east))
-    show_world(world)
     assert_equal(world.hero.pos, (0, 5))
     assert_equal(world.entity_at((3, 5)), None)

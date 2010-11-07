@@ -8,13 +8,13 @@ from entity.hero import Hero
 from entity.polyomino import Polyomino, Piece
 
 class World(object):
-    def __init__(self, terrain_string, entity_string):
+    def __init__(self, terrain_array, entity_array):
         self.level_completed = False
         self.num_moves = 0
         self.history = []
         self.info_spaces = {}
-        self.init_terrain(terrain_string)
-        self.init_entities(entity_string)
+        self.init_terrain(terrain_array)
+        self.init_entities(entity_array)
 
     def update(self, command):
         self.checkpoint()
@@ -61,11 +61,14 @@ class World(object):
         for e, old_solid in zip(self.entities, history_item['solidity']):
             e.solid = old_solid
 
-    def init_terrain(self, terrain_string):
-        self.terrain, self.board_size = parse_grid(terrain_string)
+    def init_terrain(self, terrain_array):
+        self.terrain, self.board_size = grid_to_dict(terrain_array)
 
     def init_entities(self, entity_string):
-        entity_dict, _ = parse_grid(entity_string, ENTITY_CODES.keys())
+        entity_dict, _ = grid_to_dict(
+            entity_string,
+            valid_characters=ENTITY_CODES.keys(),
+        )
         self.entities = set()
         poly_groups = {}
         for pos, code in entity_dict.items():
@@ -99,18 +102,12 @@ class World(object):
             return None
 
 
-def parse_grid(data_string, valid_characters=None):
-    lines = data_string.split('\n')
-    try:
-        while True: # remove blank lines
-            lines.remove('')
-    except ValueError: pass
-
+def grid_to_dict(data_array, valid_characters=None):
     # fill data from string
     init_data = {}
     x_vals = []
     y_vals = []
-    for y, line in enumerate(lines):
+    for y, line in enumerate(data_array):
         for x, character in enumerate(line):
             if not character.isspace():
                 x_vals.append(x)
@@ -119,8 +116,6 @@ def parse_grid(data_string, valid_characters=None):
                     init_data[(x,y)] = character
 
     # bounds correction
-    for pos in init_data.keys():
-        x, y = pos
     min_x, max_x = min(x_vals), max(x_vals)
     min_y, max_y = min(y_vals), max(y_vals)
     data = {}
