@@ -23,22 +23,19 @@ class Entity(object):
             return False
         e = self.collided_entity()
         if e:
-            return self.entity_trigger(e, direction)
+            return self.bump_entity(e, direction)
         return True
 
-    def trigger_move(self, entity, direction):
-        """
-        This specifies what you do when you are bumped by another entity.
-        """
+    def get_bumped(self, entity, direction):
         # When you are triggered to move in a direction, do so.
         # Subclasses can override this.
         return self.move(direction)
 
-    def entity_trigger(self, entity, direction):
+    def bump_entity(self, entity, direction):
         """
         This specifies what action you take when you bump another entity.
         """
-        return entity.trigger_move(self, direction)
+        return entity.get_bumped(self, direction)
 
     def collided_entity(self):
         if not self.solid:
