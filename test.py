@@ -8,7 +8,7 @@ from textwrap import dedent
 from main import load_level
 from move_shortcuts import *
 from entity.polyomino import Piece
-from entity.block import Block, HeavyBlock
+from entity.block import Block, HeavyBlock, SlideBlock
 
 import log
 log.write = print
@@ -343,3 +343,23 @@ def test_heavy_block_push():
     world.update(('move', east))
     assert_equal(world.hero.pos, (0, 5))
     assert_equal(world.entity_at((3, 5)), None)
+
+def test_slide_block():
+    # A slide block slides until it hits something when it is pushed.
+    world = make_world(
+        '''
+        .....
+        @S___
+        ''')
+    block = world.entity_at((1, 0))
+    assert isinstance(block, SlideBlock)
+    assert_equal(
+        show_world(world),
+        '@S...',
+    )
+    world.update(('move', east))
+    assert_equal(block.pos, (4, 0))
+    assert_equal(
+        show_world(world),
+        '.@..S',
+    )

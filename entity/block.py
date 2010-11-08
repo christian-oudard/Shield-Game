@@ -16,3 +16,20 @@ class HeavyBlock(Block):
 
     def bump_entity(self, entity, direction):
         return False # Don't transmit pushes through to adjacent objects.
+
+class SlideBlock(Block):
+    def move(self, direction):
+        # When a sliding block is pushed, it keeps moving until it can't
+        # anymore.
+        first_result = super(SlideBlock, self).move(direction)
+        while True:
+            old_pos = self.pos
+            self.start_move(direction)
+            result = self.finish_move(direction)
+            if not result:
+                self.pos = old_pos
+                break
+        return first_result
+
+    def bump_entity(self, entity, direction):
+        return False # Don't transmit pushes through to adjacent objects.

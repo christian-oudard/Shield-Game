@@ -1,5 +1,5 @@
 from hero import Hero
-from block import Block, HeavyBlock
+from block import Block, HeavyBlock, SlideBlock
 from polyomino import BlockPiece
 
 ENTITY_CODES = {
@@ -7,6 +7,7 @@ ENTITY_CODES = {
     '@': Hero,
     'O': Block,
     'H': HeavyBlock,
+    'S': SlideBlock,
     'A': BlockPiece,
     'B': BlockPiece,
     'C': BlockPiece,
