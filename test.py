@@ -385,17 +385,17 @@ def test_slide_block_transmit_push():
     # A slide block does push other blocks before it starts sliding.
     world = make_world(
         '''
-        ......
-        @SO___
+        ....
+        @SO_
         ''')
     assert_equal(
         show_world(world),
-        '@SO...',
+        '@SO.',
     )
     world.update(('move', east))
     assert_equal(
         show_world(world),
-        '.@SO..',
+        '.@SO',
     )
 
 def test_slide_block_get_pushed():
@@ -450,4 +450,56 @@ def test_slide_block_water():
     assert_equal(
         show_world(world),
         '.@..',
+    )
+
+def test_slide_carom():
+    # A slide block will transfer momentum to another slide block.
+    world = make_world(
+        '''
+        ......
+        @S__S_
+        ''')
+    assert_equal(
+        show_world(world),
+        '@S..S.',
+    )
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '.@.S.S',
+    )
+
+def test_slide_carom_multiple():
+    # A slide block will transfer momentum to another slide block.
+    world = make_world(
+        '''
+        ........
+        @S__SS__
+        ''')
+    assert_equal(
+        show_world(world),
+        '@S..SS..',
+    )
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '.@.SS..S',
+    )
+
+def test_slide_block_push_multiple_left():
+    # Regression test: Push a slide block in a row with a normal block twice.
+    world = make_world(
+        '''
+        .....
+        @SO__
+        ''')
+    assert_equal(
+        show_world(world),
+        '@SO..',
+    )
+    world.update(('move', east))
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '..@SO',
     )

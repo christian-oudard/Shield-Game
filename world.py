@@ -118,7 +118,7 @@ class World(object):
         # Check that no two solid objects occupy the same space.
         for a, b in all_pairs(self.entities):
             if a.solid and b.solid:
-                assert a.pos != b.pos, 'Two solid objects both occupying space %s' % a.pos
+                assert a.pos != b.pos, 'Two solid objects both occupying space %s' % (a.pos,)
 
 
 def grid_to_dict(data_array):

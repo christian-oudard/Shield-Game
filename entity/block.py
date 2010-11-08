@@ -18,14 +18,19 @@ class HeavyBlock(Block):
         return False # Don't transmit pushes through to adjacent objects.
 
 class SlideBlock(Block):
+    def __init__(self):
+        self.sliding = False
+        super(SlideBlock, self).__init__()
+
     def move(self, direction):
         # When a sliding block is pushed, it keeps moving until it can't
         # anymore.
-        self.sliding = False
-        result = super(SlideBlock, self).move(direction)
-        if not result:
-            return result
-        self.sliding = True
+        if not self.sliding:
+            self.sliding = False
+            result = super(SlideBlock, self).move(direction)
+            if not result:
+                return result
+            self.sliding = True
         while self.solid:
             old_pos = self.pos
             self.start_move(direction)
@@ -34,10 +39,16 @@ class SlideBlock(Block):
                 self.terrain_trigger()
             if not result:
                 self.pos = old_pos
+                self.sliding = False
                 break
         return True
 
     def bump_entity(self, entity, direction):
+        # Don't transmit pushes through to adjacent objects while sliding.
         if self.sliding:
-            return False # Don't transmit pushes through to adjacent objects.
+            # If you hit another slide block while sliding, transfer momentum.
+            if isinstance(entity, SlideBlock):
+                entity.sliding = True
+                entity.get_bumped(self, direction)
+            return False
         return super(SlideBlock, self).bump_entity(entity, direction)
