@@ -3,6 +3,7 @@ from block import Block, HeavyBlock
 from polyomino import BlockPiece
 
 ENTITY_CODES = {
+    '_': None,
     '@': Hero,
     'O': Block,
     'H': HeavyBlock,
@@ -11,5 +12,3 @@ ENTITY_CODES = {
     'C': BlockPiece,
     'D': BlockPiece,
 }
-
-

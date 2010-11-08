@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-from nose.tools import assert_equal
+from nose.tools import assert_equal, assert_raises
 
 import os
 from textwrap import dedent
@@ -104,6 +104,22 @@ def test_load_level_whitespace():
             #@.##
             #### ''')
     )
+
+def test_load_level_illegal_terrain():
+    # Don't allow undefined terrain types.
+    assert_raises(KeyError, lambda: make_world(
+        '''
+        K
+        @
+        '''))
+
+def test_load_level_illegal_entities():
+    # Don't allow undefined entity types.
+    assert_raises(KeyError, lambda: make_world(
+        '''
+        ..
+        @K
+        '''))
 
 def test_load_all_game_levels():
     fail_count = 0

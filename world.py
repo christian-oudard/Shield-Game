@@ -2,6 +2,7 @@ from copy import copy
 
 import log
 
+from terrain_constants import all_terrain_codes
 from entity.codes import ENTITY_CODES
 from entity.entity import Entity
 from entity.hero import Hero
@@ -63,16 +64,22 @@ class World(object):
 
     def init_terrain(self, terrain_array):
         self.terrain, self.board_size = grid_to_dict(terrain_array)
+        for pos, code in self.terrain.items():
+            if code not in all_terrain_codes:
+                raise KeyError('Illegal terrain code at position %s: "%s"' % (pos, code))
 
-    def init_entities(self, entity_string):
-        entity_dict, _ = grid_to_dict(
-            entity_string,
-            valid_characters=ENTITY_CODES.keys(),
-        )
+    def init_entities(self, entity_array):
+        entity_dict, _ = grid_to_dict(entity_array)
         self.entities = set()
         poly_groups = {}
         for pos, code in entity_dict.items():
+            if code in all_terrain_codes:
+                continue # Ignore terrain in entity grid.
+            if code not in ENTITY_CODES:
+                raise KeyError('Illegal entity code at position %s: "%s"' % (pos, code))
             Class = ENTITY_CODES[code]
+            if Class is None:
+                continue
             e = Class()
             e.pos = pos
             e.display_character = code
@@ -102,7 +109,7 @@ class World(object):
             return None
 
 
-def grid_to_dict(data_array, valid_characters=None):
+def grid_to_dict(data_array):
     # fill data from string
     data = {}
     x_vals = []
@@ -112,8 +119,7 @@ def grid_to_dict(data_array, valid_characters=None):
             if not character.isspace():
                 x_vals.append(x)
                 y_vals.append(y)
-                if valid_characters is None or character in valid_characters:
-                    data[(x, y)] = character
+                data[(x, y)] = character
     max_x = max(x_vals)
     max_y = max(y_vals)
     return data, (max_x + 1, max_y + 1)
