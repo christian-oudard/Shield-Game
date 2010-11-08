@@ -124,7 +124,7 @@ def test_load_all_game_levels():
     if fail_count:
         raise Exception('%d levels did not load' % fail_count)
 
-def test_move_command():
+def test_move_command_goal():
     world = make_world(
         '''
         ..$

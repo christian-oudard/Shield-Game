@@ -5,8 +5,10 @@ to test:
 - pushing several blocks in a line
 - pushing a block with the shield
 - polyomino blocks
+- spikes
 - pushing blocks into water
-- pushing polyomino blocks into water
+	- heavy blocks into water
+	- pushing polyomino blocks into water
 - undo features
 - test that all the levels in the game can be solved
     - have a solution code like (mne, mw, ssw, me)
@@ -35,7 +37,9 @@ style:
 - make it an umbrella
 
 bugs:
+- crash when pushing polyomino
 - spaces interior to level are inaccessible, but show the same as floor
 - fix n**2 behavior in polyominos (1 move -> 9 trigger test -> 81 trigger action)
+	- reduce duplication between polyomino logic and entity logic
 - bump display when opening shield is usually incomplete
 - display not showing borders correctly?

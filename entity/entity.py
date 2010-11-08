@@ -55,4 +55,3 @@ class Entity(object):
 
     def terrain_trigger(self):
         pass # Overriden in subclasses.
-

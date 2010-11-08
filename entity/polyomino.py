@@ -27,7 +27,7 @@ class Piece(Entity):
         return self.polyomino.move_poly(direction)
 
     def terrain_trigger(self):
-        return self.polyomino.terrain_trigger()
+        self.polyomino.terrain_trigger()
 
     def terrain_trigger_test(self):
         return True # overriden in subclasses

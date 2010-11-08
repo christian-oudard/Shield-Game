@@ -6,12 +6,13 @@ class Block(Entity):
         if self.current_terrain() == WATER:
             self.world.terrain[self.pos] = FLOOR
             self.solid = False
+        return super(Block, self).terrain_trigger()
 
 class HeavyBlock(Block):
     def get_bumped(self, entity, direction):
         if isinstance(entity, Block):
             return False # Don't respond to pushes from other blocks.
-        return Block.get_bumped(self, entity, direction)
+        return super(HeavyBlock, self).get_bumped(entity, direction)
 
     def bump_entity(self, entity, direction):
         return False # Don't transmit pushes through to adjacent objects.

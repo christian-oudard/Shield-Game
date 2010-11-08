@@ -29,11 +29,11 @@ R_DIRECTIONS = dict([(value, key) for key, value in DIRECTIONS.items()])
 
 class Hero(Piece):
     def __init__(self):
-        Piece.__init__(self)
-        self.illegal_terrain.extend([
+        super(Hero, self).__init__()
+        self.illegal_terrain += [
             WATER,
             SPIKE,
-        ])
+        ]
 
     def create_shield(self):
         self.shield_pieces = []
@@ -64,8 +64,7 @@ class Hero(Piece):
                 return False
         return True
 
-    def terrain_trigger_test(self):
-        return self.current_terrain() == GOAL
-
-    def terrain_trigger_action(self):
-        self.world.goal()
+    def terrain_trigger(self):
+        if self.current_terrain() == GOAL:
+            self.world.goal()
+        super(Hero, self).terrain_trigger()
