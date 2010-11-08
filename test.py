@@ -434,3 +434,20 @@ def test_slide_block_water():
     )
     assert_equal(block.pos, (2, 0))
     assert_equal(block.solid, False)
+
+def test_slide_block_water():
+    # A slide block reacts normally when sliding into water.
+    world = make_world(
+        '''
+        ...~
+        @S__
+        ''')
+    assert_equal(
+        show_world(world),
+        '@S.~',
+    )
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '.@..',
+    )

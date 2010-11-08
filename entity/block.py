@@ -22,16 +22,20 @@ class SlideBlock(Block):
         # When a sliding block is pushed, it keeps moving until it can't
         # anymore.
         self.sliding = False
-        first_result = super(SlideBlock, self).move(direction)
+        result = super(SlideBlock, self).move(direction)
+        if not result:
+            return result
         self.sliding = True
         while self.solid:
             old_pos = self.pos
             self.start_move(direction)
             result = self.finish_move(direction)
+            if result:
+                self.terrain_trigger()
             if not result:
                 self.pos = old_pos
                 break
-        return first_result
+        return True
 
     def bump_entity(self, entity, direction):
         if self.sliding:
