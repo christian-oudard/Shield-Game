@@ -18,7 +18,6 @@ housekeeping:
 
 features:
 - gameplay
-	- blocks that don't push in a line, they are too heavy
 	- blocks that slide all the way away from you til they hit something
 		- maybe they carom and transfer momentum when they hit another block?
 		- do they slide together in groups?
@@ -36,8 +35,6 @@ style:
 - make it an umbrella
 
 bugs:
-1- whitespace in level loading
-2- fail loudly when an unrecognized entity is in the level
 - spaces interior to level are inaccessible, but show the same as floor
 - fix n**2 behavior in polyominos (1 move -> 9 trigger test -> 81 trigger action)
 - bump display when opening shield is usually incomplete

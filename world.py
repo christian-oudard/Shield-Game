@@ -104,7 +104,7 @@ class World(object):
 
 def grid_to_dict(data_array, valid_characters=None):
     # fill data from string
-    init_data = {}
+    data = {}
     x_vals = []
     y_vals = []
     for y, line in enumerate(data_array):
@@ -113,14 +113,7 @@ def grid_to_dict(data_array, valid_characters=None):
                 x_vals.append(x)
                 y_vals.append(y)
                 if valid_characters is None or character in valid_characters:
-                    init_data[(x,y)] = character
-
-    # bounds correction
-    min_x, max_x = min(x_vals), max(x_vals)
-    min_y, max_y = min(y_vals), max(y_vals)
-    data = {}
-    for key, value in init_data.items():
-        x, y = key
-        data[(x-min_x, y-min_y)] = value
-
+                    data[(x, y)] = character
+    max_x = max(x_vals)
+    max_y = max(y_vals)
     return data, (max_x + 1, max_y + 1)
