@@ -24,7 +24,7 @@ class SlideBlock(Block):
         self.sliding = False
         first_result = super(SlideBlock, self).move(direction)
         self.sliding = True
-        while True:
+        while self.solid:
             old_pos = self.pos
             self.start_move(direction)
             result = self.finish_move(direction)

@@ -415,3 +415,22 @@ def test_slide_block_get_pushed():
         '.@O..S',
     )
 
+def test_slide_block_water():
+    # A slide block reacts normally when pushed into water.
+    world = make_world(
+        '''
+        ..~
+        @S_
+        ''')
+    block = world.entity_at((1, 0))
+    assert_equal(
+        show_world(world),
+        '@S~',
+    )
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '.@.',
+    )
+    assert_equal(block.pos, (2, 0))
+    assert_equal(block.solid, False)
