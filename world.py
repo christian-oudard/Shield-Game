@@ -28,6 +28,7 @@ class World(object):
             self.rollback()
         else:
             self.num_moves += 1
+        self.check_sanity()
 
     def goal(self):
         log.write('level finished')
@@ -108,6 +109,17 @@ class World(object):
         else:
             return None
 
+    def check_sanity(self):
+        # Check that no solid object is on terrain it may not occupy.
+        for e in self.entities:
+            if e.solid:
+                assert e.current_terrain() is not None, 'Entity out of bounds at %s' % (e.pos,)
+                assert e.current_terrain() not in e.illegal_terrain, 'Entity on illegal terrain at %s' % (e.pos,)
+        # Check that no two solid objects occupy the same space.
+        for a, b in all_pairs(self.entities):
+            if a.solid and b.solid:
+                assert a.pos != b.pos, 'Two solid objects both occupying space %s' % a.pos
+
 
 def grid_to_dict(data_array):
     # fill data from string
@@ -123,3 +135,15 @@ def grid_to_dict(data_array):
     max_x = max(x_vals)
     max_y = max(y_vals)
     return data, (max_x + 1, max_y + 1)
+
+def all_pairs(iterable):
+    """
+    Iterate over all possible pairs in the iterable, in lexicographic order.
+
+    >>> list(''.join(pair) for pair in all_pairs('abcd'))
+    ['ab', 'ac', 'ad', 'bc', 'bd', 'cd']
+    """
+    iterable = list(iterable)
+    for i, a in enumerate(iterable):
+        for b in iterable[i+1:]:
+            yield (a, b)
