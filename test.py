@@ -363,3 +363,55 @@ def test_slide_block():
         show_world(world),
         '.@..S',
     )
+
+def test_slide_block_push():
+    # A slide block does not push other blocks during its slide.
+    world = make_world(
+        '''
+        ......
+        @S__O_
+        ''')
+    assert_equal(
+        show_world(world),
+        '@S..O.',
+    )
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '.@.SO.',
+    )
+
+def test_slide_block_transmit_push():
+    # A slide block does push other blocks before it starts sliding.
+    world = make_world(
+        '''
+        ......
+        @SO___
+        ''')
+    assert_equal(
+        show_world(world),
+        '@SO...',
+    )
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '.@SO..',
+    )
+
+def test_slide_block_get_pushed():
+    # A slide block will continue when pushed by another block.
+    world = make_world(
+        '''
+        ......
+        @OS___
+        ''')
+    assert_equal(
+        show_world(world),
+        '@OS...',
+    )
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '.@O..S',
+    )
+

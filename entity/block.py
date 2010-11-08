@@ -21,7 +21,9 @@ class SlideBlock(Block):
     def move(self, direction):
         # When a sliding block is pushed, it keeps moving until it can't
         # anymore.
+        self.sliding = False
         first_result = super(SlideBlock, self).move(direction)
+        self.sliding = True
         while True:
             old_pos = self.pos
             self.start_move(direction)
@@ -32,4 +34,6 @@ class SlideBlock(Block):
         return first_result
 
     def bump_entity(self, entity, direction):
-        return False # Don't transmit pushes through to adjacent objects.
+        if self.sliding:
+            return False # Don't transmit pushes through to adjacent objects.
+        return super(SlideBlock, self).bump_entity(entity, direction)
