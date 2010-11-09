@@ -38,8 +38,8 @@ class World(object):
         history_item = {
             'moves' : self.num_moves,
             'terrain': copy(self.terrain),
-            'positions': tuple(e.pos for e in self.entities),
-            'solidity': tuple(e.solid for e in self.entities),
+            'positions': dict((e, e.pos) for e in self.entities),
+            'solidity': dict((e, e.solid) for e in self.entities),
         }
         self.history.append(history_item)
 
@@ -53,16 +53,14 @@ class World(object):
             self.undo()
 
     def undo(self):
-        try:
-            history_item = self.history.pop()
-        except IndexError:
-            return False
+        if not self.history:
+            return
+        history_item = self.history.pop()
         self.num_moves = history_item['moves']
         self.terrain = history_item['terrain']
-        for e, old_pos in zip(self.entities, history_item['positions']):
-            e.pos = old_pos
-        for e, old_solid in zip(self.entities, history_item['solidity']):
-            e.solid = old_solid
+        for e in self.entities:
+            e.pos = history_item['positions'][e]
+            e.solid = history_item['solidity'][e]
 
     def init_terrain(self, terrain_array):
         self.terrain, self.board_size = grid_to_dict(terrain_array)
