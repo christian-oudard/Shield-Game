@@ -5,7 +5,6 @@ import time
 import os
 import sys
 
-import log
 import vec
 
 from world import World
@@ -13,16 +12,13 @@ from keys import get_command
 from display import GameDisplay
 
 def curses_main(stdscr):
-    log.init('curses_game_log')
     display = GameDisplay(stdscr)
     try:
         with open(sys.argv[1]) as level_file:
             level_string = level_file.read()
     except IndexError:
-        log.write('must specify level file as an argument')
         return
     except IOError:
-        log.write('level file "%s" not found' % sys.argv[1])
         return
     world = load_level(level_string)
     if world is None:

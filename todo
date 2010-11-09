@@ -12,7 +12,6 @@ to test:
 	- pushing polyomino blocks into water
 
 housekeeping:
-- use real python logging, not crappy custom log
 - python 3? 2to3? 3to2?
 
 features:

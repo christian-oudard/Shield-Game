@@ -1,4 +1,3 @@
-import log
 import vec
 
 from terrain_constants import WALL

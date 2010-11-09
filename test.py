@@ -10,9 +10,6 @@ from move_shortcuts import *
 from entity.polyomino import Piece
 from entity.block import Block, HeavyBlock, SlideBlock
 
-import log
-log.write = print
-
 class MockDisplay(object):
     def show_bump(self):
         pass

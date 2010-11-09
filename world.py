@@ -1,7 +1,5 @@
 from copy import copy
 
-import log
-
 from terrain_constants import all_terrain_codes
 from entity.codes import ENTITY_CODES
 from entity.entity import Entity
@@ -31,7 +29,6 @@ class World(object):
         self.check_sanity()
 
     def goal(self):
-        log.write('level finished')
         self.level_completed = True
 
     def checkpoint(self, command):

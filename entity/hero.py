@@ -1,4 +1,3 @@
-import log
 import vec
 
 from polyomino import Polyomino, Piece
