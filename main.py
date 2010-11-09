@@ -23,7 +23,7 @@ def curses_main(stdscr):
     if args and args[-1] == '--replay':
         replay_data = load_replay(filename + '.solution')
         def _get_command(stdscr):
-            time.sleep(1)
+            time.sleep(.5)
             return replay_data.pop(0)
         global get_command
         get_command = _get_command

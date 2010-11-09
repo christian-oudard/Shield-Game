@@ -5,7 +5,7 @@ from nose.tools import assert_equal, assert_raises
 import os
 from textwrap import dedent
 
-from main import load_level
+from main import load_level, load_replay
 from move_shortcuts import *
 from entity.polyomino import Piece
 from entity.block import Block, HeavyBlock, SlideBlock
@@ -129,6 +129,8 @@ def test_load_all_game_levels():
     for dirpath, dirnames, filenames in os.walk('levels'):
         for filename in filenames:
             if filename.startswith('.'):
+                continue
+            if filename.endswith('.solution'):
                 continue
             file_path = os.path.join(dirpath, filename)
             with open(file_path) as f:
