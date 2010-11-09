@@ -503,3 +503,20 @@ def test_slide_block_push_multiple_left():
         show_world(world),
         '..@SO',
     )
+
+def test_slide_block_bump():
+    # Push a slide block into a wall.
+    world = make_world(
+        '''
+        ..#
+        @S_
+        ''')
+    assert_equal(
+        show_world(world),
+        '@S#',
+    )
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '@S#',
+    )
