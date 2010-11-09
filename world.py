@@ -27,6 +27,7 @@ class World(object):
         else:
             self.num_moves += 1
         self.check_sanity()
+        return result
 
     def goal(self):
         self.level_completed = True

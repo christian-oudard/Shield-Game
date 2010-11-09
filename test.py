@@ -124,26 +124,25 @@ def test_load_level_illegal_entities():
         @K
         '''))
 
-def test_load_all_game_levels():
-    fail_count = 0
+def test_solve_all_game_levels():
     for dirpath, dirnames, filenames in os.walk('levels'):
         for filename in filenames:
             if filename.startswith('.'):
                 continue
             if filename.endswith('.solution'):
                 continue
+
+            # Load the level, and make sure there are no errors.
             file_path = os.path.join(dirpath, filename)
             with open(file_path) as f:
                 level_string = f.read()
-            try:
-                load_level(level_string)
-            except Exception as e:
-                print('problem loading level %s:' % file_path)
-                print(e)
-                print()
-                fail_count += 1
-    if fail_count:
-        raise Exception('%d levels did not load' % fail_count)
+            world = load_level(level_string)
+
+            # Replay the solution, and ensure that it solves the level.
+            replay = load_replay(file_path + '.solution')
+            for move in replay:
+                assert world.update(move)
+            assert world.level_completed
 
 def test_undo():
     world = make_world(
