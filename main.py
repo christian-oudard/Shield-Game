@@ -93,7 +93,8 @@ def load_level(level_string):
     world = World(terrain_lines, entity_lines)
 
     # Parse the tags.
-    tags_list = tag_string.split('!')
+    tag_string = '\n' + tag_string
+    tags_list = tag_string.split('\n!')
     for tag in tags_list:
         tag = tag.strip()
         if tag == '':

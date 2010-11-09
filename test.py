@@ -71,7 +71,7 @@ def test_load_level_info():
         ___
 
         !i 1, 1
-        note one
+        note one. with an exclamation! and stuff.
 
         !i 2, 2
         note two
@@ -79,7 +79,13 @@ def test_load_level_info():
     assert_equal(world.board_size, (3, 3))
     assert_equal(world.terrain[(1, 1)], 'i')
     assert_equal(world.terrain[(2, 2)], 'i')
-    assert_equal(world.info_spaces, {(1, 1): 'note one', (2, 2): 'note two'})
+    assert_equal(
+        world.info_spaces,
+        {
+            (1, 1): 'note one. with an exclamation! and stuff.',
+            (2, 2): 'note two',
+        },
+    )
 
 def test_load_level_whitespace():
     # Respect leading whitespace in game levels.
