@@ -582,3 +582,58 @@ def test_slide_block_bump():
         show_world(world),
         '@S#',
     )
+
+def test_polyomino_push_loop():
+    world = make_world(
+        '''
+        ....
+        ....
+        ....
+        AA_O
+        @___
+        ____
+        ''')
+    assert_equal(
+        show_world(world),
+        dedent(
+            '''\
+            AA.O
+            @...
+            ....''')
+    )
+    world.update(('shield', east))
+    assert_equal(
+        show_world(world),
+        dedent(
+            '''\
+            AA.O
+            @...
+            ....''')
+    )
+
+    world = make_world(
+        '''
+        .....
+        .....
+        .....
+        _____
+        A@A_O
+        _____
+        ''')
+    assert_equal(
+        show_world(world),
+        dedent(
+            '''\
+            .....
+            A@A.O
+            .....''')
+    )
+    world.update(('shield', east))
+    assert_equal(
+        show_world(world),
+        dedent(
+            '''\
+            .....
+            A@A.O
+            .....''')
+    )

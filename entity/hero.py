@@ -27,12 +27,17 @@ DIRECTIONS = {
 }
 R_DIRECTIONS = dict([(value, key) for key, value in DIRECTIONS.items()])
 
-class Hero(Piece):
+
+class HeroPiece(Piece):
+    def get_bumped(self, entity, direction):
+        return False # Hero cannot be pushed.
+
+
+class Hero(HeroPiece):
     def __init__(self):
         super(Hero, self).__init__()
         self.illegal_terrain += [
-            WATER,
-            SPIKE,
+            WATER, SPIKE,
         ]
 
     def create_shield(self):
@@ -40,7 +45,7 @@ class Hero(Piece):
         for i in range(8):
             d = DIRECTIONS[i]
             pos = vec.add(self.pos, d)
-            piece = Piece()
+            piece = HeroPiece()
             piece.pos = pos
             piece.display_character = '-\|/'[i % 4]
             self.world.register_entity(piece)
