@@ -146,6 +146,35 @@ def test_load_all_game_levels():
     if fail_count:
         raise Exception('%d levels did not load' % fail_count)
 
+def test_undo():
+    world = make_world(
+        '''
+        ....$
+        @_O__
+        ''')
+    world.undo()
+    assert_equal(
+        show_world(world),
+        '@.O.$',
+    )
+    world.update(('move', east))
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '..@O$',
+    )
+    world.undo()
+    assert_equal(
+        show_world(world),
+        '.@O.$',
+    )
+    world.undo()
+    world.undo() # Try to undo past the beginning.
+    assert_equal(
+        show_world(world),
+        '@.O.$',
+    )
+
 def test_restart():
     world = make_world(
         '''
