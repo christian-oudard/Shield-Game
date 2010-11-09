@@ -4,6 +4,7 @@ import curses
 import time
 import os
 import sys
+import pickle
 
 import vec
 
@@ -12,14 +13,28 @@ from keys import get_command
 from display import GameDisplay
 
 def curses_main(stdscr):
-    display = GameDisplay(stdscr)
+    args = sys.argv[1:]
     try:
-        with open(sys.argv[1]) as level_file:
-            level_string = level_file.read()
+        filename = args.pop()
     except IndexError:
         return
+
+    replay_data = []
+    if args and args[-1] == '--replay':
+        replay_data = load_replay(filename + '.solution')
+        def _get_command(stdscr):
+            time.sleep(1)
+            return replay_data.pop(0)
+        global get_command
+        get_command = _get_command
+
+    try:
+        with open(filename) as level_file:
+            level_string = level_file.read()
     except IOError:
         return
+
+    display = GameDisplay(stdscr)
     world = load_level(level_string)
     if world is None:
         return
@@ -60,9 +75,19 @@ def curses_main(stdscr):
             display.refresh()
             display.show_message('Level Completed in %i moves' % world.num_moves)
             stdscr.refresh()
+            save_replay(world, filename + '.solution')
             time.sleep(1)
             #STUB, load next level
             break
+
+def save_replay(world, filename):
+    replay = world.get_replay()
+    with open(filename, 'w') as f:
+        pickle.dump(replay, f)
+
+def load_replay(filename):
+    with open(filename) as f:
+        return pickle.load(f)
 
 def load_level(level_string):
     # Determine where the tags start, if they exist.

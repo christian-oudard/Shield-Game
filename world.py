@@ -41,6 +41,9 @@ class World(object):
         }
         self.history.append(history_item)
 
+    def get_replay(self):
+        return [h['command'] for h in self.history]
+
     def rollback(self):
         self.display.show_bump()
         self.undo()
