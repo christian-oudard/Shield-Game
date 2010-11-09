@@ -1,8 +1,7 @@
 levels:
 
 to test:
-1- undo features
-3- test that all the levels in the game can be solved
+2- test that all the levels in the game can be solved
     - have a solution code like (mne, mw, ssw, me)
 	- requires good tests on undo features first
 - pushing a block with the shield
@@ -17,9 +16,10 @@ housekeeping:
 - python 3? 2to3? 3to2?
 
 features:
-2- record level demo
-4- continuity
+1- record level demo
+3- continuity
 - gameplay
+	- redo feature
 	- should you be able to push multiple heavy blocks with your shield? maybe no?
 - effects
 	- color
@@ -40,7 +40,6 @@ bugs:
 - fix n**2 behavior in polyominos (1 move -> 9 trigger test -> 81 trigger action)
 	- reduce duplication between polyomino logic and entity logic
 - bump display when opening shield is usually incomplete
-- display not showing borders correctly?
 
 notes:
 

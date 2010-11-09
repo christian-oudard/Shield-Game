@@ -18,7 +18,7 @@ class World(object):
         self.init_entities(entity_array)
 
     def update(self, command):
-        self.checkpoint()
+        self.checkpoint(command)
         cmd_type, direction = command
         if cmd_type == 'move':
             result = self.hero.move(direction)
@@ -34,8 +34,9 @@ class World(object):
         log.write('level finished')
         self.level_completed = True
 
-    def checkpoint(self):
+    def checkpoint(self, command):
         history_item = {
+            'command': command,
             'moves' : self.num_moves,
             'terrain': copy(self.terrain),
             'positions': dict((e, e.pos) for e in self.entities),
