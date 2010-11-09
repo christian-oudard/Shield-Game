@@ -1,0 +1,21 @@
+# movement intro
+intro/movement
+# heavy blocks intro
+# * simple puzzles with heavy blocks,
+# water
+intro/water
+# * sokoban puzzles with water and pushing, still no shield
+# enable shield
+# * puzzles with shield and heavy blocks and water
+cramp
+# spikes
+intro_shield_spikes
+crossing
+narrow
+devil
+# round blocks
+intro/blocks
+intro_spikes_blocks
+lake_ring
+
+# sliding blocks
