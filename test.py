@@ -124,6 +124,16 @@ def test_load_level_illegal_entities():
         @K
         '''))
 
+def test_load_level_info_wrong_square():
+    assert_raises(AssertionError, lambda: make_world(
+        '''
+        .
+        @
+
+        !i 0, 0
+        this note is for a square with no info marker
+        '''))
+
 def test_solve_all_game_levels():
     for dirpath, dirnames, filenames in os.walk('levels'):
         for filename in filenames:
@@ -136,13 +146,18 @@ def test_solve_all_game_levels():
             file_path = os.path.join(dirpath, filename)
             with open(file_path) as f:
                 level_string = f.read()
-            world = load_level(level_string)
+            world = make_world(level_string)
 
             # Replay the solution, and ensure that it solves the level.
             replay = load_replay(file_path + '.solution')
-            for move in replay:
-                assert world.update(move)
-            assert world.level_completed
+            try:
+                for i, move in enumerate(replay):
+                    assert world.update(move), 'Solution bumped on move #%d' % (i + 1)
+                assert world.level_completed, 'Level not completed'
+            except AssertionError:
+                print(move)
+                print(show_world(world))
+                raise
 
 def test_undo():
     world = make_world(

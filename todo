@@ -1,9 +1,6 @@
 levels:
 
 to test:
-2- test that all the levels in the game can be solved
-    - have a solution code like (mne, mw, ssw, me)
-	- requires good tests on undo features first
 - pushing a block with the shield
 - polyomino blocks
 - spikes
@@ -15,8 +12,6 @@ housekeeping:
 - python 3? 2to3? 3to2?
 
 features:
-1- record level demo
-3- continuity
 - gameplay
 	- redo feature
 	- should you be able to push multiple heavy blocks with your shield? maybe no?
