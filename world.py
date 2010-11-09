@@ -48,8 +48,9 @@ class World(object):
         self.undo()
 
     def restart(self):
-        self.history = [self.history[0]]
-        self.undo()
+        if self.history:
+            self.history = [self.history[0]]
+            self.undo()
 
     def undo(self):
         try:

@@ -146,6 +146,33 @@ def test_load_all_game_levels():
     if fail_count:
         raise Exception('%d levels did not load' % fail_count)
 
+def test_restart():
+    world = make_world(
+        '''
+        ....$
+        @____
+        ''')
+    assert_equal(
+        show_world(world),
+        '@...$',
+    )
+    world.restart()
+    assert_equal(
+        show_world(world),
+        '@...$',
+    )
+    world.update(('move', east))
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        '..@.$',
+    )
+    world.restart()
+    assert_equal(
+        show_world(world),
+        '@...$',
+    )
+
 def test_move_command_goal():
     world = make_world(
         '''
