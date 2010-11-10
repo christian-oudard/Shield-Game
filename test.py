@@ -134,6 +134,13 @@ def test_load_level_info_wrong_square():
         this note is for a square with no info marker
         '''))
 
+def test_load_level_sanity():
+    assert_raises(AssertionError, lambda: make_world(
+        '''
+        #.
+        @_
+        '''))
+
 def test_solve_all_game_levels():
     for dirpath, dirnames, filenames in os.walk('levels'):
         for filename in filenames:

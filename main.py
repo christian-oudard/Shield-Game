@@ -133,6 +133,8 @@ def load_level(level_string):
         if terrain == 'i':
             assert pos in world.info_spaces, 'un-matched "i" square'
 
+    world.check_sanity()
+
     return world
 
 if __name__ == '__main__':
