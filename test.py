@@ -726,3 +726,27 @@ def test_polyomino_push_loop():
             A@A.O
             .....''')
     )
+
+def test_polyomino_water():
+    world = make_world(
+        '''
+        ..~
+        ..~
+        @A_
+        _A_
+        ''')
+    assert_equal(
+        show_world(world),
+        dedent(
+            '''\
+            @A~
+            .A~''')
+    )
+    world.update(('move', east))
+    assert_equal(
+        show_world(world),
+        dedent(
+            '''\
+            .@.
+            ...''')
+    )

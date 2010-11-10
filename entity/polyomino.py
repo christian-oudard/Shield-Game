@@ -1,4 +1,6 @@
 from entity import Entity
+from terrain_constants import WATER, FLOOR
+
 
 class Polyomino(object):
     def __init__(self, pieces):
@@ -36,7 +38,6 @@ class Piece(Entity):
         pass # overriden in subclasses
 
 
-from terrain_constants import WATER, FLOOR
 class BlockPiece(Piece):
     def terrain_trigger_test(self):
         return self.current_terrain() == WATER
