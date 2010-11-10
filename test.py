@@ -4,8 +4,9 @@ from nose.tools import assert_equal, assert_raises
 
 import os
 from textwrap import dedent
+from StringIO import StringIO
 
-from main import load_level, load_replay
+from main import load_level, save_replay, load_replay
 from move_shortcuts import *
 from entity.polyomino import Piece
 from entity.block import Block, HeavyBlock, SlideBlock
@@ -160,7 +161,8 @@ def test_solve_all_game_levels():
             world = make_world(level_string)
 
             # Replay the solution, and ensure that it solves the level.
-            replay = load_replay(file_path + '.solution')
+            with open(file_path + '.solution') as f:
+                replay = load_replay(f)
             try:
                 for i, move in enumerate(replay):
                     assert world.update(move), 'Solution bumped on move #%d' % (i + 1)
@@ -237,6 +239,57 @@ def test_restart():
         show_world(world),
         '@...$',
     )
+
+def test_save_load_replay():
+    replay = [
+        ('move', north),
+        ('move', south),
+        ('move', east),
+        ('move', west),
+        ('move', northeast),
+        ('move', southeast),
+        ('move', southwest),
+        ('move', northwest),
+        ('move', center),
+        ('shield', north),
+        ('shield', south),
+        ('shield', east),
+        ('shield', west),
+        ('shield', northeast),
+        ('shield', southeast),
+        ('shield', southwest),
+        ('shield', northwest),
+        ('shield', center),
+    ]
+    f = StringIO()
+    save_replay(replay, f)
+    f.seek(0)
+    assert_equal(
+        f.buf,
+        dedent(
+            '''\
+            mn
+            ms
+            me
+            mw
+            mne
+            mse
+            msw
+            mnw
+            mc
+            sn
+            ss
+            se
+            sw
+            sne
+            sse
+            ssw
+            snw
+            sc
+            ''')
+    )
+    new_replay = load_replay(f)
+    assert_equal(replay, new_replay)
 
 def test_move_command_goal():
     world = make_world(

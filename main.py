@@ -11,6 +11,7 @@ import vec
 from world import World
 from keys import get_command
 from display import GameDisplay
+from move_shortcuts import move_codes, reverse_move_codes
 
 def curses_main(stdscr):
     args = sys.argv[1:]
@@ -21,7 +22,8 @@ def curses_main(stdscr):
 
     replay_data = []
     if args and args[-1] == '--replay':
-        replay_data = load_replay(filename + '.solution')
+        with open(filename + '.solution') as f:
+            replay_data = load_replay(f)
         def _get_command(stdscr):
             time.sleep(.5)
             return replay_data.pop(0)
@@ -75,19 +77,22 @@ def curses_main(stdscr):
             display.refresh()
             display.show_message('Level Completed in %i moves' % world.num_moves)
             stdscr.refresh()
-            save_replay(world, filename + '.solution')
+            with open(filename + '.solution', 'w') as f:
+                save_replay(world.get_replay(), f)
             time.sleep(1)
             #STUB, load next level
             break
 
-def save_replay(world, filename):
-    replay = world.get_replay()
-    with open(filename, 'w') as f:
-        pickle.dump(replay, f)
+def save_replay(replay, f):
+    for move in replay:
+        f.write(move_codes[move] + '\n')
 
-def load_replay(filename):
-    with open(filename) as f:
-        return pickle.load(f)
+def load_replay(f):
+    replay = []
+    for line in f:
+        code = line.rstrip('\n')
+        replay.append(reverse_move_codes[code])
+    return replay
 
 def load_level(level_string):
     # Determine where the tags start, if they exist.
