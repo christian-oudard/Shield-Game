@@ -13,6 +13,7 @@ housekeeping:
 
 features:
 - gameplay
+	- disabling shield
 	- redo feature
 	- should you be able to push multiple heavy blocks with your shield? maybe no?
 - effects

@@ -142,6 +142,7 @@ def test_load_level_sanity():
         '''))
 
 def test_solve_all_game_levels():
+    all_levels = []
     for dirpath, dirnames, filenames in os.walk('levels'):
         for filename in filenames:
             if filename.startswith('.'):
@@ -150,6 +151,9 @@ def test_solve_all_game_levels():
                 continue
 
             # Load the level, and make sure there are no errors.
+            assert filename not in all_levels
+            all_levels.append(filename)
+
             file_path = os.path.join(dirpath, filename)
             with open(file_path) as f:
                 level_string = f.read()
@@ -165,6 +169,18 @@ def test_solve_all_game_levels():
                 print(move)
                 print(show_world(world))
                 raise
+    # Check that all levels are listed in the level sequence.
+    with open('sequence') as f:
+        sequence = f.read()
+    sequence_levels = []
+    for line in sequence.splitlines():
+        if line.strip() and not line.startswith('#'):
+            sequence_levels.append(line)
+
+    for level in sequence_levels:
+        assert level in all_levels, 'Unknown level listed in level sequence: %s' % level
+    for level in all_levels:
+        assert level in sequence_levels, 'Level missing from sequence: %s' % level
 
 def test_undo():
     world = make_world(
