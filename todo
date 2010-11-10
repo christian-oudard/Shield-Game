@@ -31,7 +31,6 @@ style:
 - make it an umbrella
 
 bugs:
-- require a level to have a goal
 - spaces interior to level are inaccessible, but show the same as floor
 - fix n**2 behavior in polyominos (1 move -> 9 trigger test -> 81 trigger action)
 	- reduce duplication between polyomino logic and entity logic

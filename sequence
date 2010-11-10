@@ -25,3 +25,6 @@ lake_ring
 
 # sliding blocks
 three_slide_spike_circle
+
+# polyominos
+polyomino_pusher
