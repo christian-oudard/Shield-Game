@@ -13,10 +13,11 @@ intro_water
 cramp
 # spikes
 intro_shield_spikes
-spikes_blocks_z
 crossing
-narrow
 devil
+narrow
+spikes_blocks_z
+spikes_blocks_z2
 # round blocks
 #-- intro_round_blocks
 intro_spikes_blocks
