@@ -17,6 +17,8 @@ class World(object):
 
     def update(self, command):
         self.checkpoint(command)
+        if command == ('move', (0, 0)):
+            command = ('shield', (0, 0))
         cmd_type, direction = command
         if cmd_type == 'move':
             result = self.hero.move(direction)
