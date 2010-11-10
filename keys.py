@@ -53,7 +53,3 @@ for key, value in KEY_MAPPING.items():
         KEY_MAPPING[ord(key)] = value
     except TypeError:
         pass
-
-def get_command(stdscr):
-    c = stdscr.getch()
-    return KEY_MAPPING.get(c)

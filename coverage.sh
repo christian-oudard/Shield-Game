@@ -1,6 +1,7 @@
 #! /bin/sh
 
 nosetests --with-coverage \
+	--cover-package cge \
 	--cover-package display \
 	--cover-package entity \
 	--cover-package keys \

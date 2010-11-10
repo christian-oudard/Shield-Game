@@ -9,7 +9,7 @@ import pickle
 import vec
 
 from world import World
-from keys import get_command
+from keys import KEY_MAPPING
 from display import GameDisplay
 from move_shortcuts import move_codes, reverse_move_codes
 
@@ -82,6 +82,10 @@ def curses_main(stdscr):
             time.sleep(1)
             #STUB, load next level
             break
+
+def get_command(stdscr):
+    c = stdscr.getch()
+    return KEY_MAPPING.get(c)
 
 def save_replay(replay, f):
     for move in replay:
