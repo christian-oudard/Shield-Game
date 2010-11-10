@@ -4,6 +4,7 @@ intro_movement
 intro_blocks
 # * simple puzzles with heavy blocks,
 heavy_blocks1
+#...
 # water
 intro_water
 # * sokoban puzzles with water and pushing, still no shield
@@ -21,3 +22,4 @@ intro_spikes_blocks
 lake_ring
 
 # sliding blocks
+three_slide_spike_circle
