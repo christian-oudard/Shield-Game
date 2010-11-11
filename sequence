@@ -23,11 +23,13 @@ spikes_blocks_z2
 intro_spikes_blocks
 lake_ring
 
+# polyominos
+big_block
+three_big_blocks
+polyomino_pusher
+shake_out_of_the_box
+
 # sliding blocks
 slide_crossing
 three_slide_spike_circle
 
-# polyominos
-polyomino_pusher
-shake_out_of_the_box
-big_block

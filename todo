@@ -12,7 +12,9 @@ housekeeping:
 - python 3? 2to3? 3to2?
 
 features:
+- level editor
 - gameplay
+	- heavy polyomino blocks
 	- move center puts shield down
 	- disabling shield
 	- redo feature
@@ -34,6 +36,7 @@ bugs:
 - spaces interior to level are inaccessible, but show the same as floor
 - fix n**2 behavior in polyominos (1 move -> 9 trigger test -> 81 trigger action)
 	- reduce duplication between polyomino logic and entity logic
+		- make all blocks 1-polyominos
 - bump display when opening shield is usually incomplete
 
 notes:
