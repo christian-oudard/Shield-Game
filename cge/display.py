@@ -6,9 +6,10 @@ class Display(object):
         # self.world set after initialization
         self.scr = scr
         self.origin = (0, 0)
+        # set the cursor to be hidden, if the terminal supports it.
         try:
             curses.curs_set(0)
-        except:
+        except curses.error:
             pass
         scr.refresh() # refresh right away so first call to stdscr.getch() doesn't overwrite the first draw()
 
