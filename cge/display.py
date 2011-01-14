@@ -6,7 +6,10 @@ class Display(object):
         # self.world set after initialization
         self.scr = scr
         self.origin = (0, 0)
-        curses.curs_set(0)
+        try:
+            curses.curs_set(0)
+        except:
+            pass
         scr.refresh() # refresh right away so first call to stdscr.getch() doesn't overwrite the first draw()
 
     def refresh(self):
