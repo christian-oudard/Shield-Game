@@ -73,13 +73,19 @@ def curses_main(stdscr):
                 world.update(('shield', direction))
         else:
             world.update(command)
+
         if world.level_completed:
             display.refresh()
             display.show_message('Level Completed in %i moves' % world.num_moves)
             stdscr.refresh()
-            with open(filename + '.solution', 'w') as f:
-                save_replay(world.get_replay(), f)
             time.sleep(1)
+            # Save a replay if we've improved the solution.
+            with open(filename + '.solution') as f:
+                old_replay_data = load_replay(f)
+            new_replay_data = world.get_replay()
+            if len(new_replay_data) < len(old_replay_data):
+                with open(filename + '.solution', 'w') as f:
+                    save_replay(new_replay_data, f)
             #STUB, load next level
             break
 
