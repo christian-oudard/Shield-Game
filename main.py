@@ -2,23 +2,21 @@
 
 import curses
 import time
-import os
 import sys
-import pickle
-
-import vec
 
 from curses_game.world import World
 from curses_game.keys import KEY_MAPPING
 from curses_game.game_display import GameDisplay
 from curses_game.move_shortcuts import move_codes, reverse_move_codes
 
+
 def curses_main(stdscr):
+    #debug(stdscr)
     args = sys.argv[1:]
     try:
         filename = args.pop()
     except IndexError:
-        return
+        raise IndexError('Please specify a level.')
 
     replay_data = []
     if args and args[-1] == '--replay':
@@ -153,6 +151,13 @@ def load_level(level_string):
     world.check_sanity()
 
     return world
+
+def debug(stdscr):
+    curses.nocbreak()
+    stdscr.keypad(0)
+    curses.echo()
+    curses.endwin()
+    import pdb; pdb.set_trace()
 
 if __name__ == '__main__':
     curses.wrapper(curses_main)
