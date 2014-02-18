@@ -4,12 +4,12 @@ from nose.tools import assert_equal, assert_raises
 
 import os
 from textwrap import dedent
-from StringIO import StringIO
+from io import StringIO
 
 from main import load_level, save_replay, load_replay
-from move_shortcuts import *
-from entity.polyomino import Piece
-from entity.block import Block, HeavyBlock, SlideBlock
+from curses_game.move_shortcuts import *
+from curses_game.entity.polyomino import Piece
+from curses_game.entity.block import Block, HeavyBlock, SlideBlock
 
 class MockDisplay(object):
     def show_bump(self):
@@ -264,8 +264,9 @@ def test_save_load_replay():
     f = StringIO()
     save_replay(replay, f)
     f.seek(0)
+    contents = f.read()
     assert_equal(
-        f.buf,
+        contents,
         dedent(
             '''\
             mn

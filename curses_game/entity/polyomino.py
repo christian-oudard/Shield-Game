@@ -1,5 +1,5 @@
-from entity import Entity
-from terrain_constants import WATER, FLOOR
+from curses_game.entity import Entity
+from curses_game.terrain_constants import WATER, FLOOR
 
 
 class Polyomino(object):

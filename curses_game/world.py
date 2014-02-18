@@ -1,10 +1,10 @@
 from copy import copy
 
-from terrain_constants import all_terrain_codes
-from entity.codes import ENTITY_CODES
-from entity.entity import Entity
-from entity.hero import Hero
-from entity.polyomino import Polyomino, Piece
+from curses_game.terrain_constants import all_terrain_codes
+from curses_game.entity.codes import ENTITY_CODES
+from curses_game.entity import Entity
+from curses_game.entity.hero import Hero
+from curses_game.entity.polyomino import Polyomino, Piece
 
 class World(object):
     def __init__(self, terrain_array, entity_array):

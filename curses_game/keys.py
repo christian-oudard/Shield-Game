@@ -48,7 +48,7 @@ KEY_MAPPING = {
     '0': ('shield', (0, 0)),
     '+': 'shield', # dead-key for shield
 }
-for key, value in KEY_MAPPING.items():
+for key, value in list(KEY_MAPPING.items()):
     try:
         KEY_MAPPING[ord(key)] = value
     except TypeError:

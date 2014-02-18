@@ -1,8 +1,8 @@
 import vec
 
-from polyomino import Polyomino, Piece
-from terrain_constants import WATER, SPIKE, GOAL
-from move_shortcuts import (
+from curses_game.entity.polyomino import Polyomino, Piece
+from curses_game.terrain_constants import WATER, SPIKE, GOAL
+from curses_game.move_shortcuts import (
     northwest,
     west,
     southwest,

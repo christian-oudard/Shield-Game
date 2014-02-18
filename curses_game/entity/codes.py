@@ -1,6 +1,6 @@
-from hero import Hero
-from block import Block, HeavyBlock, SlideBlock
-from polyomino import BlockPiece
+from curses_game.entity.hero import Hero
+from curses_game.entity.block import Block, HeavyBlock, SlideBlock
+from curses_game.entity.polyomino import BlockPiece
 
 ENTITY_CODES = {
     '_': None,

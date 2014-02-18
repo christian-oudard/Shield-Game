@@ -8,10 +8,10 @@ import pickle
 
 import vec
 
-from world import World
-from keys import KEY_MAPPING
-from display import GameDisplay
-from move_shortcuts import move_codes, reverse_move_codes
+from curses_game.world import World
+from curses_game.keys import KEY_MAPPING
+from curses_game.game_display import GameDisplay
+from curses_game.move_shortcuts import move_codes, reverse_move_codes
 
 def curses_main(stdscr):
     args = sys.argv[1:]

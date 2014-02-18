@@ -1,6 +1,6 @@
 import vec
 
-from terrain_constants import WALL
+from curses_game.terrain_constants import WALL
 
 class Entity(object):
     def __init__(self):

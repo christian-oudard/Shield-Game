@@ -1,6 +1,6 @@
 import time
-from cge.display import Display
-from terrain_constants import FLOOR
+from curses_game.display import Display
+from curses_game.terrain_constants import FLOOR
 
 class GameDisplay(Display):
     def __init__(self, *args, **kwargs):
