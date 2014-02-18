@@ -162,7 +162,8 @@ def test_solve_all_game_levels():
 
             # Replay the solution, and ensure that it solves the level.
             with open(file_path + '.solution') as f:
-                replay = load_replay(f)
+                contents = f.read()
+            replay = load_replay(contents)
             try:
                 for i, move in enumerate(replay):
                     assert world.update(move), 'Solution bumped on move #%d' % (i + 1)
@@ -240,6 +241,7 @@ def test_restart():
         '@...$',
     )
 
+
 def test_save_load_replay():
     replay = [
         ('move', north),
@@ -289,7 +291,7 @@ def test_save_load_replay():
             sc
             ''')
     )
-    new_replay = load_replay(f)
+    new_replay = load_replay(contents)
     assert_equal(replay, new_replay)
 
 def test_move_command_goal():

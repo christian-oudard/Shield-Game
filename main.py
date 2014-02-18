@@ -23,7 +23,8 @@ def curses_main(stdscr):
     replay_data = []
     if args and args[-1] == '--replay':
         with open(filename + '.solution') as f:
-            replay_data = load_replay(f)
+            contents = f.read()
+        replay_data = load_replay(contents)
         def _get_command(stdscr):
             time.sleep(.5)
             return replay_data.pop(0)
@@ -81,7 +82,8 @@ def curses_main(stdscr):
             time.sleep(1)
             # Save a replay if we've improved the solution.
             with open(filename + '.solution') as f:
-                old_replay_data = load_replay(f)
+                contents = f.read()
+            old_replay_data = load_replay(contents)
             new_replay_data = world.get_replay()
             if len(new_replay_data) < len(old_replay_data):
                 with open(filename + '.solution', 'w') as f:
@@ -97,9 +99,9 @@ def save_replay(replay, f):
     for move in replay:
         f.write(move_codes[move] + '\n')
 
-def load_replay(f):
+def load_replay(contents):
     replay = []
-    for line in f:
+    for line in contents.splitlines():
         code = line.rstrip('\n')
         replay.append(reverse_move_codes[code])
     return replay
