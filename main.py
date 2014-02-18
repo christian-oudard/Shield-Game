@@ -23,11 +23,10 @@ def curses_main(stdscr):
         with open(filename + '.solution') as f:
             contents = f.read()
         replay_data = load_replay(contents)
-        def _get_command(stdscr):
+
+        def get_command(stdscr):
             time.sleep(.5)
             return replay_data.pop(0)
-        global get_command
-        get_command = _get_command
 
     try:
         with open(filename) as level_file:
