@@ -15,10 +15,8 @@ features:
 - level editor
 - gameplay
 	- heavy polyomino blocks
-	- move center puts shield down
 	- disabling shield
 	- redo feature
-	- should you be able to push multiple heavy blocks with your shield? maybe no?
 - effects
 	- color
 	- show when a dead-key command is pending
@@ -28,6 +26,7 @@ features:
 	- polyomino effects
 	- rounded corners for walls, to show that you may move through diagonally tight spaces
 	- motion between states
+	- sliding blocks slide slowly
 
 style:
 - make it an umbrella
